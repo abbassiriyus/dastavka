@@ -8,7 +8,7 @@ create table aksiya(
     "time_create" timestamp default current_timestamp not null,
     "time_update" timestamp default current_timestamp not null
 
-)
+);
 create table news(
     "id" serial primary key,
     "title" VARCHAR (50),
@@ -17,7 +17,7 @@ create table news(
     "min_description" text,
     "time_create" timestamp default current_timestamp not null,
     "time_update" timestamp default current_timestamp not null
-)
+);
 create table compony(
     "id" serial primary key,
     "logo"text,
@@ -27,7 +27,7 @@ create table compony(
     "whatsapp" VARCHAR (50),
     "time_create" timestamp default current_timestamp not null,
     "time_update" timestamp default current_timestamp NOT NULL
-)
+);
 create table homeiy(
     "id" serial primary key,
     "image" VARCHAR (50),
@@ -35,7 +35,7 @@ create table homeiy(
     "time_create" timestamp default current_timestamp not null,
     "time_update" timestamp default current_timestamp not null
 
-)
+);
 create table skachat_pridlachenu(
     "id" serial primary key,
     "image" VARCHAR (50),
@@ -43,17 +43,17 @@ create table skachat_pridlachenu(
     "deskription" VARCHAR (50),
     "time_create" timestamp default current_timestamp not null,
     "time_update" timestamp default current_timestamp not null
-)
+);
 create table preferences (
     "id" serial primary key,
     "image" VARCHAR (50),
     "title" VARCHAR (50) ,
     "description" VARCHAR (50),
-    "liso" VARCHAR CHECK ("F"||"Y"),
+    "liso" VARCHAR  (1),
     "time_create" timestamp default current_timestamp not null,
     "time_update" timestamp default current_timestamp not null
     
-)
+);
 create table category(
     "id" serial primary key,
     "image" VARCHAR (50),
@@ -61,7 +61,7 @@ create table category(
     "description" VARCHAR (50),
     "time_create" timestamp default current_timestamp not null,
     "time_update" timestamp default current_timestamp not null
-)
+);
 create table product(
     "id" serial primary key,
     "description" VARCHAR (50),
@@ -73,7 +73,7 @@ create table product(
     "against"text,
     "time_create" timestamp default current_timestamp not null,
     "time_update" timestamp default current_timestamp not null
-)
+);
 create table tarif(
     "id" serial primary key,
     "image" VARCHAR (50),
@@ -81,7 +81,7 @@ create table tarif(
     "map_meter" integer default 0 NOT NULL,
     "time_create" timestamp default current_timestamp not null,
     "time_update" timestamp default current_timestamp not null
-)
+);
 
 create table starter(
     "id" serial primary key,
@@ -90,4 +90,4 @@ create table starter(
     "car_heigth" integer default 0 NOT NULL,
     "time_create" timestamp default current_timestamp not null,
     "time_update" timestamp default current_timestamp not null
-)
+);
