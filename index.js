@@ -8,6 +8,7 @@ const bodyParser = require('body-parser');
 
 // import
 const aksiya=require('./routes/aksiya.js')
+const category=require('./routes/category.js')
 
 
 
@@ -23,6 +24,7 @@ app.use(express.static('./media'))
 app.use(bodyParser.json());
 
 app.use('/api',aksiya)
+app.use('/api',category)
 
 
 

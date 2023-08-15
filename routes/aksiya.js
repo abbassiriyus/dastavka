@@ -13,7 +13,7 @@ router.get("/aksiya", (req, res) => {
             res.send(err)
         }
     })
-})
+})  
 
 router.get('/aksiya/:id', (req, res) => {
     
