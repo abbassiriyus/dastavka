@@ -94,9 +94,9 @@ create table product(
     "sena" integer default 0 NOT NULL,
     "marka" text,
     "stay" text,
-    "liquid" text,
+    "liquid" boolion not nul,
     "storage" text,
-    "against"text,
+    "against" text,
     "time_create" timestamp default current_timestamp not null,
     "time_update" timestamp default current_timestamp not null
 );
