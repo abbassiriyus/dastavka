@@ -149,8 +149,8 @@ var fomo_name
     fomo_file = req.files.fomo
     fomo_name = "2a"+Date.now()+fomo_file.name.slice(fomo_file.name.lastIndexOf('.'))
      }
-    pool.query('INSERT INTO tarif (image,title,map_meter) VALUES ($1,$2,$3) RETURNING *',
-        [imgName,body.title,body.map_meter],
+    pool.query('INSERT INTO tarif (position_id,patronymic,surname,username,phone,email,inn,recvizit,document_mashina,prava,fomo,login,password) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13) RETURNING *',
+        [body.position_id,body.patronymic,body.surname,body.username,body.phone,body.email,body.inn,body.recvizit,document_mashina_name,prava_name,fomo_name,body.login,body.password],
          (err, result) => {
             if (err) {
                 res.status(400).send(err);
@@ -182,111 +182,11 @@ router.get('/users', function(req, res) {
         } 
     })  
 });
-// get student
-router.get('/students',ensureToken, function(req, res) {
-   console.log(req.body);
-        pool.query("SELECT * FROM users", (err, result) => {
-            if (!err) {
-               var a=result.rows.filter(item=>item.position==1)
-             var b=[]
-               a.map(item=>{
-                b.push({
-                    id:item.id,
-                    email:item.email,
-                    username:item.username,
-                    first_name:item.first_name,
-                    last_name:item.last_name,
-                    phone_number:item.phone_number,
-                    image:item.image,
-                    description:item.description,
-                    address:item.address,
-                    date_joined:item.date_joined,
-                })
-               })
-                res.status(200).send(b)  
-            } else {
-                res.send(err)
-            }
-        })
-});
-router.get('/allusers',ensureToken, function(req, res) {
-    console.log(req.body);
-         pool.query("SELECT * FROM users", (err, result) => {
-             if (!err) {
-                var a=result.rows
-              var b=[]
-                a.map(item=>{
-                 b.push({
-                     id:item.id,
-                     email:item.email,
-                     username:item.username,
-                     first_name:item.first_name,
-                     last_name:item.last_name,
-                     phone_number:item.phone_number,
-                     image:item.image,
-                     description:item.description,
-                     address:item.address,
-                     date_joined:item.date_joined,
-                 })
-                })
-                 res.status(200).send(b)  
-             } else {
-                 res.send(err)
-             }
-         })
- });
-// get teacher 
-router.get('/teachers',ensureToken, function(req, res) {
-    pool.query("SELECT * FROM users", (err, result) => {
-        if (!err) {
-           var a=result.rows.filter(item=>item.position==2)
-         var b=[]
-           a.map(item=>{
-            b.push({
-                id:item.id,
-                email:item.email,
-                username:item.username,
-                last_name:item.last_name,
-                phone_number:item.phone_number,
-                image:item.image,
-                description:item.description,
-                address:item.address,
-                date_joined:item.date_joined,
-            })
-           })
-            res.status(200).send(b)  
-        } else {
-            res.send(err)
-        }
-    })
-});
-router.get('/users/follow/:id', (req, res) => { 
-    pool.query("SELECT address,description,email,image,id,username,is_active FROM users", (err, result1) => {
-    if (!err) {
-        pool.query("SELECT * FROM follow", (err, result2) => {
-            if (!err) {
-            var userall=result1.rows
-            var allcourse=result2.rows
-            console.log(allcourse);
-            var oneuser=userall.filter(item=>item.id==req.params.id)
-            var i_follow=allcourse.filter(item=>item.topuser==req.params.id)
-            console.log(i_follow);
-             var me_follow=allcourse.filter(item=>item.minuser==req.params.id)
-             console.log(me_follow);
-            oneuser[0].i_follow=i_follow
-             oneuser[0].me_follow=me_follow
 
 
-            res.status(200).send(oneuser)
-                }
-            })
-        } else {
-            res.status(400).send({"err":err,"message":"user topilmadi"})
-        }
-    })
-})
+
 // get user position
-router.get('/users/:id',ensureTokenSuper, function(req, res) {
+router.get('/users/:id', function(req, res) {
     pool.query("SELECT * FROM users", (err, result) => {
         if (!err) {
             var a=result.rows.filter(item=>item.id==req.params.id)
@@ -296,42 +196,23 @@ router.get('/users/:id',ensureTokenSuper, function(req, res) {
         }
     })
 });
-router.get('/teacher/:id',ensureToken, function(req, res) {
-    pool.query("SELECT id , address , description,email,image,username,last_name,phone_number FROM users", (err, result) => {
-        if (!err) {
-            var course=null
-            pool.query("SELECT * FROM course", (err, result2) => {
-           course=result2.rows.filter(item=>item.author==req.params.id)
-           var a=result.rows.filter(item=>item.id*1===req.params.id*1) 
-           a[0].course=course
-            res.status(200).send(a)})
-        } else {
-            res.send(err)
-        }
-    })
-});
+
 // one token user
-router.get('/oneuser', ensureToken, function(req, res) {
+router.get('/oneuser', function(req, res) {
    var body=req.body
    var result1
    const bearerHeader=req.headers['authorization']
    const bearer=bearerHeader.split(" ")
    const bearerToken=bearer[1]
    req.token=bearerToken
-   jwt.verify(bearerToken,'secret',((require1,result)=>{
-       if(result==undefined){
+   jwt.verify(bearerToken,'secret',((require1,result1)=>{
+       if(result1==undefined){
            res.status(502).send("token failed")
-       }else{
-    result1=result    
+       }else{   
      pool.query("SELECT * FROM users", (err, result) => {
         if (!err) {
-            if(result1.email){
-            var a=result.rows.filter(item=>(item.email===result1.email ))
-            }else{
-            var a=result.rows.filter(item=>(item.username===result1.username))
-            }
-     
-      var a2=a.filter(item=>item.user_password===result1.user_password)
+        var a=result.rows.filter(item=>(item.login===result1.login ))
+        var a2=a.filter(item=>item.user_password===result1.user_password)
             res.status(200).send(a2) 
         } else {
             res.send(err)
@@ -344,56 +225,20 @@ router.get('/oneuser', ensureToken, function(req, res) {
 
 
 // delete user
-router.delete("/users/:id",ensureToken, (req, res) => {
+router.delete("/users/:id", (req, res) => {
     const id = req.params.id
-    pool.query("SELECT * FROM users", (err, result) => {
-        if (!err) {
-            var a=result.rows.filter(item=>item.id==req.params.id) 
-            if(a[0].image){
-                fs.unlink(`./Images/${a[0].image}`,()=>{})
-            }
-            pool.query('DELETE FROM users WHERE id = $1', [id], (err, result) => {
+    pool.query('DELETE FROM users WHERE id = $1', [id], (err, result) => {
         if (err) {
             res.status(400).send(err)
         } else {
-            if(a[0].image){
-                fs.unlink(`./Images/${a[0].image}`,(err => {console.log('delete');}))
-            }
             res.status(200).send("Deleted")
         }
-    }) 
-        } else {
-            res.send(err)
-        } 
     }) 
 
   
 })
 
-// create new user
-router.post("/users",ensureTokenSuper, (req, res) => {
-    const body = req.body;
-    var imgName=""
-    if(req.files && req.files.image){
-         const imgFile = req.files.image
-         imgName = Date.now()+imgFile.name.slice(imgFile.name.lastIndexOf('.'))
-    }else{
-        imgName=req.body.image
-    }
-    pool.query('INSERT INTO users (address, description, email, last_name, password, phone_number, username, position,image) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING *',
-    [ body.address,body.description, body.email, body.last_name, body.password, body.phone_number, body.username, body.position,imgName],
-         (err, result) => {
-            if (err) {
-                res.status(400).send(err);
-            } else {
-               if(req.files && req.files.image){
-                const imgFile = req.files.image
-                imgFile.mv(`${__dirname}/Images/${imgName}`)
-               }
-                res.status(201).send("Created");
-            }
-        });
-});
+
 // login in user_password email username
 router.post('/login', function(req, res) {
     var body=req.body
@@ -404,9 +249,8 @@ router.post('/login', function(req, res) {
             var position
           var a=false
         result.rows.map(item=>{
-        if(item.password==body.password && (item.email==body.email || item.username==body.username)){
-        pool.query('UPDATE users SET last_login=$1 WHERE id = $2',[datatime,item.id])
-        token = jwt.sign({"password":item.password,"email":item.email,"username":item.username,"position":item.position}, 'secret');
+        if(item.password==body.password && item.login==body.login){
+        token = jwt.sign({"password":item.password,"login":item.login}, 'secret');
             position=item.position
                  a=true}
            })
@@ -422,37 +266,7 @@ router.post('/login', function(req, res) {
     
 });
 
-// put data 
-router.put("/userssuperadmin/:id",ensureTokenSuper, (req, res) => {
-    const id = req.params.id
-    const body = req.body
-    var imgName=""
 
-   pool.query("SELECT * FROM users", (err, result) => { 
-    if (!err) {
-            var a=result.rows.filter(item=>item.id==req.params.id) 
-            fs.unlink(`./Images/${a[0].image}`,()=>{})}})
-if(req.files){
-    const imgFile = req.files.image
-     imgName = Date.now()+imgFile.name.slice(imgFile.name.lastIndexOf('.'))
-}else{
-     imgName = req.body.image
-}
-    pool.query('UPDATE users SET address = $1,balance=$2,description=$3,email=$4, image=$5,last_name=$6,password=$7,phone_number=$8,username=$9,position=$10 WHERE id = $11',
-        [body.address, body.balance, body.description, body.email,imgName,body.last_name,body.password,body.phone_number,body.username,body.position, id],
-        (err, result) => {
-            if (err) {
-                console.log("oddiy xato");
-                res.status(400).send(err)
-            } else {
-                const imgFile = req.files.image
-                if(req.files){imgFile.mv(`${__dirname}/Images/${imgName}`)}
-                res.status(200).send("Updated")
-            }
-        }
-    )
-
-})
 // put user
 router.put("/oneuser/:id",ensureToken, (req, res) => {
     const id = req.params.id
@@ -504,21 +318,7 @@ router.put("/oneuser/:id",ensureToken, (req, res) => {
 })
 
 
-router.put("/ban/:id", (req, res) => {
-    const id = req.params.id
-    const body = req.body
-    pool.query(
-        'UPDATE users SET is_active=$1    WHERE id = $2',
-        [body.is_active,id],
-        (err, result) => {
-            if (err) {
-                res.status(400).send(err)
-            } else {
-                res.status(200).send("Updated")
-            }
-        }
-    )
-})
+
 
 module.exports = router;
 
