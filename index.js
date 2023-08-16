@@ -8,11 +8,9 @@ const bodyParser = require('body-parser');
 
 // import
 const aksiya=require('./routes/aksiya.js')
-const category=require('./routes/category.js')
-
-
-
-
+const position=require('./routes/position.js')
+const compony=require('./routes/compony.js')
+const news=require('./routes/news.js')
 
 const pool = require("./db")
 
@@ -24,7 +22,9 @@ app.use(express.static('./media'))
 app.use(bodyParser.json());
 
 app.use('/api',aksiya)
-app.use('/api',category)
+app.use('/api',position)
+app.use('/api',news)
+app.use('/api',compony)
 
 
 
