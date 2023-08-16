@@ -4,6 +4,24 @@
 }
 center h1{
     color:red;
-    font-size: 30px;
+    font-size: 23px;
+    font-weight: 100;
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+pre{
+    color: green;
+    font-size: 12px;
+}
+a{
+    text-decoration: none;
+    font-size: 15px;
+    border: 1px solid gray;
+    padding:0px 10px;
+}
+.api{
+    padding-left: 20px;
+}
+p{
+    font-size: 12px;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
 }
