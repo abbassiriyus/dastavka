@@ -101,21 +101,34 @@
 </div>
 <hr>
 <div class="api">
-    <a href="https://dastafka-back.onrender.com/api/demo">api/demo</a>
-<span>demo</span>
+    <a href="https://dastafka-back.onrender.com/auth/users">auth/users</a>
+<span>usernalni hamma turdagisini yaratadi</span>
 <pre>
-  demo
+    "position_id" integer NOT NULL,
+    "patronymic" VARCHAR(50) not null,
+    "surname" VARCHAR(50) not null,
+    "username" VARCHAR(50) not null,
+    "phone" VARCHAR(50) not null,
+    "email" VARCHAR(50) not null,
+    "inn" VARCHAR(50),
+    "recvizit" VARCHAR(50),
+    "document_mashina" text,
+    "prava" text,
+    "fomo" text,
+    "login" VARCHAR(100) NOT NULL,
+    "password" VARCHAR(100) not null,
 </pre>
 <p>method: GET,GET(id),POST,DELETE(id),PUT(id)</p>
 </div>
 <hr>
 <div class="api">
-    <a href="https://dastafka-back.onrender.com/api/demo">api/demo</a>
-<span>demo</span>
+    <a href="https://dastafka-back.onrender.com/auth/login">auth/login</a>
+<span>tokren olish uchun</span>
 <pre>
-  demo
+    "login" VARCHAR(100) NOT NULL,
+    "password" VARCHAR(100) not null,
 </pre>
-<p>method: GET,GET(id),POST,DELETE(id),PUT(id)</p>
+<p>method:POST</p>
 </div>
 <hr>
 <div class="api">

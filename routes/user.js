@@ -20,7 +20,7 @@ router.get('/users', function(req, res) {
 
 // get user position
 router.get('/users/:id', function(req, res) {
-    pool.query("SELECT * FROM homeiy where id=$1", [req.params.id], (err, result) => {
+    pool.query("SELECT * FROM users where id=$1", [req.params.id], (err, result) => {
         if (!err) {
             res.status(200).send(result.rows)
         } else {
@@ -29,7 +29,7 @@ router.get('/users/:id', function(req, res) {
     })
 });
     
-// verifikatsiya
+//register
 router.post("/users", (req, res) => {
     const body = req.body;
 var document_mashina_file
@@ -48,7 +48,7 @@ var fomo_name
     fomo_file = req.files.fomo
     fomo_name = "2a"+Date.now()+fomo_file.name.slice(fomo_file.name.lastIndexOf('.'))
      }
-    pool.query('INSERT INTO tarif (position_id,patronymic,surname,username,phone,email,inn,recvizit,document_mashina,prava,fomo,login,password) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13) RETURNING *',
+    pool.query('INSERT INTO users (position_id,patronymic,surname,username,phone,email,inn,recvizit,document_mashina,prava,fomo,login,password) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13) RETURNING *',
         [body.position_id,body.patronymic,body.surname,body.username,body.phone,body.email,body.inn,body.recvizit,document_mashina_name,prava_name,fomo_name,body.login,body.password],
          (err, result) => {
             if (err) {
@@ -72,8 +72,33 @@ var fomo_name
 })
 
 
-
-
+// login in user_password email username
+router.post('/login', function(req, res) {
+    var body=req.body
+    if(body){
+        var datatime=new Date()
+    pool.query("SELECT * FROM users", (err, result) => {
+        if (!err) {
+          var token
+          var position
+          var a=false
+        result.rows.map(item=>{
+        if(item.password==body.password && item.login==body.login){
+        token = jwt.sign({"password":item.password,"login":item.login}, 'secret');
+            position=item.position
+                 a=true}
+           })
+       if(!a){res.status(500).send("Royhatdan o`tmagan") }else{
+        res.status(200).send({access:token,position}) 
+       }
+        } else {
+            res.status(401).send(err)
+        }
+    })}else{
+        res.status(441).send("post metodida hech qanday data yuborilmadi")
+    }
+    
+});
 
 // one token user
 router.get('/oneuser', function(req, res) {
@@ -102,6 +127,8 @@ router.get('/oneuser', function(req, res) {
 });
 
 
+
+
 // delete user
 router.delete("/users/:id", (req, res) => {
     const id = req.params.id
@@ -117,50 +144,24 @@ router.delete("/users/:id", (req, res) => {
 })
 
 
-// login in user_password email username
-router.post('/login', function(req, res) {
-    var body=req.body
-    if(body){var datatime=new Date()
-    pool.query("SELECT * FROM users", (err, result) => {
-        if (!err) {
-            var token
-            var position
-          var a=false
-        result.rows.map(item=>{
-        if(item.password==body.password && item.login==body.login){
-        token = jwt.sign({"password":item.password,"login":item.login}, 'secret');
-            position=item.position
-                 a=true}
-           })
-       if(!a){res.status(500).send("Royhatdan o`tmagan") }else{
-        res.status(200).send({access:token,position}) 
-       }
-        } else {
-            res.status(401).send(err)
-        }
-    })}else{
-        res.status(441).send("post metodida hech qanday data yuborilmadi")
-    }
-    
-});
 
 
 // put user
-router.put("/oneuser/:id",ensureToken, (req, res) => {
+router.put("/users/:id", (req, res) => {
     const id = req.params.id
     const body = req.body
     if(req.files){
    const imgFile = req.files.image
    var imgName = Date.now()+imgFile.name.slice(imgFile.name.lastIndexOf('.'))
- pool.query("SELECT * FROM users", (err, result) => {
+    pool.query("SELECT * FROM users", (err, result) => {
         if (!err) {
             var a=result.rows.filter(item=>item.id==req.params.id) 
             if(a.length>0 && a[0].image){
                 fs.unlink(`./Images/${a[0].image}`,()=>{})
             }
     pool.query(
-    'UPDATE users SET address = $1,description=$2,email=$3, image=$4,last_name=$5,phone_number=$6,username=$7 WHERE id = $8',
-        [body.address, body.description, body.email,imgName,body.last_name,body.phone_number,body.username,id],
+    'UPDATE users SET position_id = $1,patronymic=$2,surname=$3, username=$4,phone=$5,email=$6,inn=$7,recvizit=$8,login=$9,password=$10 WHERE id = $11',
+        [body.position_id, body.patronymic, body.surname,body.username,body.phone,body.email,body.inn,body.recvizit,body.login,body.password, id],
         (err, result) => {
             if (err) {
                 res.status(400).send(err)
