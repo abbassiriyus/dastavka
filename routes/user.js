@@ -7,128 +7,27 @@ const fs =require("fs")
 
 
 
-// registratsiya
-router.post("/register", (req, res) => {
-    const body = req.body
-    if(body){
-    var code =Math.floor(Math.random() * 900000)+100000;
-    var a=0
-    pool.query("SELECT * FROM users", (err, result) => {
+// get alluser
+router.get('/users', function(req, res) {
+       pool.query("SELECT * FROM users", (err, result) => {
         if (!err) {
-            var d2=result.rows.filter(item=>{item.email===req.body.email})
-            var d3=result.rows.filter(item=>{item.password===req.body.password})
-        if(d2.length>0 || d3.length>0){
-            a=1
-        }
-        }
-})
-    if(body.password.length>7 && body.email.includes('@') && a!==1){
-    pool.query('INSERT INTO verify (password,email,username,code) VALUES ($1,$2,$3,$4) RETURNING *',
-        [body.password,body.email,body.username,code], (err, result) => {
-            if (err) {
-                res.status(400).send("malumot To`liq emas")
-            } else {
-                var mailOptions = {
-                    from: "webabbas9@gmail.com",
-                    to: body.email,
-                    subject: "Verification Code",
-                    html: `Your activation code:${code}`
-                 };
-                transporter.sendMail(mailOptions, function(error, info){
-                    if(error){
-                       console.log(error,"error");
-                    }else{
-                       console.log("your code: "+code);
-                 
-                    }
-                 });
-                res.status(201).send("send message your email")
-            }
-        })}else{
-            if(body.password.length<8){
-            res.status(420).send("parol kam kiritildi")
-            }
-            if(!(body.email.includes('@'))){
-                res.status(421).send("email xato kiritildi")
-            }}
-            if(a==1){
-                res.status(422).send("siz kiritgan malumotlar bizni bazamizda oldindan saqlangan")  
-            }}else{
-                res.status(441).send("malumotni yubormadingiz")
-            }
-})
+            res.status(200).send(result.rows)  
+        } else {
+            res.send(err)
+        } 
+    })  
+});
 
-router.post("/change/password", (req, res) => {
-    const body = req.body
-    if(body){
-    var code =Math.floor(Math.random() * 900000)+100000;
-    var a=0
-    pool.query("SELECT * FROM users", (err, result) => {
+// get user position
+router.get('/users/:id', function(req, res) {
+    pool.query("SELECT * FROM homeiy where id=$1", [req.params.id], (err, result) => {
         if (!err) {
-         var d2=result.rows.filter(item=>item.email===req.body.email)
-        if(d2.length>0){
-         a=d2[0].id
-        }else{
-         res.status(400).send("email topilmadi")
-        }
-        console.log(a);
-    if(body.email.includes('@') && a!==0){
-    pool.query('UPDATE users SET verify=$1 WHERE id=$2',
-    [code,a], (err, result) => {
-            if (err) {
-                res.status(400).send("malumot To`liq emas")
-            } else {
-                var mailOptions = {
-                    from: "webabbas9@gmail.com",
-                    to: body.email,
-                    subject: "Verification Code",
-                    html: `Your activation code:${code}`
-                 };
-                transporter.sendMail(mailOptions, function(error, info){
-                    if(error){
-                       console.log(error,"error");
-                    }else{
-                       console.log("your code: "+code);
-                    }
-                 });
-                res.status(201).send("send message your email")
-            }
-        })}else{
-            if(!(body.email.includes('@'))){
-                res.status(421).send("email xato kiritildi")
-            }}
-            if(a==1){
-                res.status(422).send("siz kiritgan malumotlar bizni bazamizda oldindan saqlangan")  
-            }}else{
-                res.status(441).send("malumotni yubormadingiz")
-            }
-})
-   }
-})
-
-router.put("/reset/", (req, res) => {
-    const body = req.body
-    pool.query("SELECT * FROM users", (err, result1) => {
-        if (!err) {
-            console.log(result1.rows);
-            console.log(body.code);
-            var s=result1.rows.filter(item=>item.verify==body.code)
-            console.log(s);
-            pool.query('UPDATE users SET password=$1 WHERE id=$2',
-            [body.password,s[0].id],
-            (err, result) => {
-                if (err) {
-                    res.status(400).send({err:err,message:'parol oldin ishlatilgan'})
-                } else {
-                    res.status(200).send("Updated")
-                }})
+            res.status(200).send(result.rows)
         } else {
             res.status(400).send(err)
-        } 
-    }) 
-  
-})
-
+        }
+    })
+});
     
 // verifikatsiya
 router.post("/users", (req, res) => {
@@ -172,30 +71,9 @@ var fomo_name
   
 })
 
-// get alluser
-router.get('/users', function(req, res) {
-       pool.query("SELECT * FROM users", (err, result) => {
-        if (!err) {
-            res.status(200).send(result.rows)  
-        } else {
-            res.send(err)
-        } 
-    })  
-});
 
 
 
-// get user position
-router.get('/users/:id', function(req, res) {
-    pool.query("SELECT * FROM users", (err, result) => {
-        if (!err) {
-            var a=result.rows.filter(item=>item.id==req.params.id)
-            res.status(200).send(a)
-        } else {
-            res.send(err)
-        }
-    })
-});
 
 // one token user
 router.get('/oneuser', function(req, res) {
