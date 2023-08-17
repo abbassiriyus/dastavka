@@ -11,6 +11,8 @@ const aksiya=require('./routes/aksiya.js')
 const position=require('./routes/position.js')
 const compony=require('./routes/compony.js')
 const news=require('./routes/news.js')
+const users=require('./routes/user.js')
+
 
 const pool = require("./db")
 
@@ -25,6 +27,8 @@ app.use('/api',aksiya)
 app.use('/api',position)
 app.use('/api',news)
 app.use('/api',compony)
+app.use('/auth',users)
+
 
 
 
