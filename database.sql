@@ -88,15 +88,28 @@ create table category(
     "time_create" timestamp default current_timestamp not null,
     "time_update" timestamp default current_timestamp not null
 );
+create table marka(
+    "id" serial primary key,
+    "title" VARCHAR (50),
+    "time_create" timestamp default current_timestamp not null,
+    "time_update" timestamp default current_timestamp not null
+);
+create table sovuqlik(
+    "id" serial primary key,
+    "sena" integer not null,
+    "gradus" integer not null,
+    "time_create" timestamp default current_timestamp not null,
+    "time_update" timestamp default current_timestamp not null
+);
 create table product(
     "id" serial primary key,
     "description" text,
-    "sena" integer default 0 NOT NULL,
-    "marka" text,
-    "stay" text,
-    "liquid" boolion not nul,
-    "storage" text,
-    "against" text,
+    "s3_sena" integer NOT NULL,
+    "s4_sena" integer NOT NULL,
+    "marka" integer not null,
+    "hydrophobic_additive_sena" integer not Null,
+    "Fiber_fiber" integer not null, 
+    "homiy_id" integer Not null,
     "time_create" timestamp default current_timestamp not null,
     "time_update" timestamp default current_timestamp not null
 );

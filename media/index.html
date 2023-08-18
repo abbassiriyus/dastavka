@@ -118,7 +118,7 @@
     "login" VARCHAR(100) NOT NULL,
     "password" VARCHAR(100) not null,
 </pre>
-<p>method: GET,GET(id),POST,DELETE(id),PUT(id)</p>
+<p>method: GET,GET(id),POST,DELETE(id)</p>
 </div>
 <hr>
 <div class="api">
@@ -132,12 +132,21 @@
 </div>
 <hr>
 <div class="api">
-    <a href="https://dastafka-back.onrender.com/api/demo">api/demo</a>
-<span>demo</span>
+    <a href="https://dastafka-back.onrender.com/auth/users">auth/users</a>
+    <span>o`zgartirish uchun</span>
 <pre>
-  demo
+    "position_id" integer NOT NULL,
+    "patronymic" VARCHAR(50) not null,
+    "surname" VARCHAR(50) not null,
+    "username" VARCHAR(50) not null,
+    "phone" VARCHAR(50) not null,
+    "email" VARCHAR(50) not null,
+    "inn" VARCHAR(50),
+    "recvizit" VARCHAR(50),
+    "login" VARCHAR(100) NOT NULL,
+    "password" VARCHAR(100) not null,
 </pre>
-<p>method: GET,GET(id),POST,DELETE(id),PUT(id)</p>
+<p>method:PUT(id)</p>
 </div>
 <hr>
 <div class="api">
