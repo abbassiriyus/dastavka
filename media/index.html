@@ -132,6 +132,14 @@
 </div>
 <hr>
 <div class="api">
+    <a href="https://dastafka-back.onrender.com/auth/oneuser">auth/oneuser</a>
+<span>login parol terib kirgan userini aniqlaydi, token brilsa token egasini aniqlaydi</span>
+<pre>
+</pre>
+<p>method:Get</p>
+</div>
+<hr>
+<div class="api">
     <a href="https://dastafka-back.onrender.com/auth/users">auth/users</a>
     <span>o`zgartirish uchun</span>
 <pre>
@@ -150,8 +158,79 @@
 </div>
 <hr>
 <div class="api">
-    <a href="https://dastafka-back.onrender.com/api/demo">api/demo</a>
-<span>demo</span>
+    <a href="https://dastafka-back.onrender.com/api/marka">api/marka</a>
+<span>m200,m50 producta markalari</span>
+<pre>
+    "title" VARCHAR (50),
+</pre>
+<p>method: GET,GET(id),POST,DELETE(id),PUT(id)</p>
+</div>
+<hr>
+<div class="api">
+    <a href="https://dastafka-back.onrender.com/api/sovuqlik">api/sovuqlik</a>
+<span>produc sovuqlika chidamliligi </span>
+<pre>
+    "sena" integer not null,
+    "gradus" integer not null,
+</pre>
+<p>method: GET,GET(id),POST,DELETE(id),PUT(id)</p>
+</div>
+<hr>
+<div class="api">
+    <a href="https://dastafka-back.onrender.com/api/product">api/product</a>
+<span>producta yaratadi va uning narxlarini kiritadi</span>
+<pre>
+    "description" text,
+    "s3_sena" integer NOT NULL,
+    "s4_sena" integer NOT NULL,
+    "marka" integer not null,
+    "hydrophobic_additive_sena" integer not Null,
+    "Fiber_fiber" integer not null, 
+    "homiy_id" integer Not null,
+</pre>
+<p>method: GET,GET(id),POST,DELETE(id),PUT(id)</p>
+</div>
+<hr>
+
+<div class="api">
+    <a href="https://dastafka-back.onrender.com/api/tarif">api/tarif</a>
+<span>econom,standart va boshqa toifala qoshsa boladi.</span>
+<pre>
+    "image" text Not null,
+    "title" VARCHAR (50) not null,
+    "sena_city" integer not null,
+    "sena_out_city" integer default 0 NOT NULL,
+</pre>
+<p>method: GET,GET(id),POST,DELETE(id),PUT(id)</p>
+</div>
+<hr>
+<div class="api">
+    <a href="https://dastafka-back.onrender.com/api/mashina">api/mashina</a>
+<span>mashin atanlaydi soatlik buyutma uchun</span>
+<pre>
+    "image" text,
+    "m3" integer not null,
+    "sena" VARCHAR (50) ,
+    "description" text,
+</pre>
+<p>method: GET,GET(id),POST,DELETE(id),PUT(id)</p>
+</div>
+<hr>
+<div class="api">
+    <a href="https://dastafka-back.onrender.com/api/shving">api/shving</a>
+<span>shviling tanlaydi</span>
+<pre>
+    "image" text,
+    "m" integer not null,
+    "sena" VARCHAR (50) ,
+    "description" text,
+</pre>
+<p>method: GET,GET(id),POST,DELETE(id),PUT(id)</p>
+</div>
+<hr>
+<div class="api">
+    <a href="https://dastafka-back.onrender.com/api/sena">api/sena</a>
+<span>mashina zakaz qilinsa qoshimcha narxla uchun</span>
 <pre>
   demo
 </pre>

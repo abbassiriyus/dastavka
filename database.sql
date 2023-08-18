@@ -1,29 +1,31 @@
 create table users(
-"id" serial primary key,
-"position_id" integer NOT NULL,
-"patronymic" VARCHAR(50) not null,
-"surname" VARCHAR(50) not null,
-"username" VARCHAR(50) not null,
-"phone" VARCHAR(50) not null,
-"email" VARCHAR(50) not null,
-"inn" VARCHAR(50),
-"recvizit" VARCHAR(50),
-"document_mashina" text,
-"prava" text,
-"fomo" text,
-"login" VARCHAR(100) NOT NULL,
-"password" VARCHAR(100) not null,
-UNIQUE(email),
-UNIQUE(phone),
-UNIQUE(inn),
-"time_create" timestamp default current_timestamp not null,
-"time_update" timestamp default current_timestamp not null
+ "id" serial primary key,
+ "position_id" integer NOT NULL,
+ "patronymic" VARCHAR(50) not null,
+ "surname" VARCHAR(50) not null,
+ "username" VARCHAR(50) not null,
+ "phone" VARCHAR(50) not null,
+ "email" VARCHAR(50) not null,
+ "inn" VARCHAR(50),
+ "bonus" integer default 0 not null,
+ "skitka" integer default 1 not null,
+ "recvizit" VARCHAR(50),
+ "document_mashina" text,
+ "prava" text,
+ "fomo" text,
+ "login" VARCHAR(100) NOT NULL,
+ "password" VARCHAR(100) not null,
+ UNIQUE(email),
+ UNIQUE(phone),
+ UNIQUE(inn),
+ "time_create" timestamp default current_timestamp not null,
+ "time_update" timestamp default current_timestamp not null
 );
 create table position (
-"id" serial primary key,
-"position_name" VARCHAR(50),
-"time_create" timestamp default current_timestamp not null,
-"time_update" timestamp default current_timestamp not null   
+ "id" serial primary key,
+ "position_name" VARCHAR(50),
+ "time_create" timestamp default current_timestamp not null,
+ "time_update" timestamp default current_timestamp not null   
 );
 create table aksiya(
     "id" serial primary key,
@@ -88,6 +90,12 @@ create table category(
     "time_create" timestamp default current_timestamp not null,
     "time_update" timestamp default current_timestamp not null
 );
+
+
+
+
+
+
 create table marka(
     "id" serial primary key,
     "title" VARCHAR (50),
@@ -115,18 +123,37 @@ create table product(
 );
 create table tarif(
     "id" serial primary key,
-    "image" text,
-    "title" VARCHAR (50),
-    "map_meter" integer default 0 NOT NULL,
+    "image" text Not null,
+    "title" VARCHAR (50) not null,
+    "sena_city" integer not null,
+    "sena_out_city" integer default 0 NOT NULL,
     "time_create" timestamp default current_timestamp not null,
     "time_update" timestamp default current_timestamp not null
 );
 
-create table starter(
+create table mashina (
     "id" serial primary key,
-    "mini_asphalt" text,
-    "car_width" integer default 0 NOT NULL,
-    "car_heigth" integer default 0 NOT NULL,
+    "image" text,
+    "m3" integer not null,
+    "sena" VARCHAR (50) ,
+    "description" text,
     "time_create" timestamp default current_timestamp not null,
     "time_update" timestamp default current_timestamp not null
 );
+create table shving (
+    "id" serial primary key,
+    "image" text,
+    "m" integer not null,
+    "sena" VARCHAR (50) ,
+    "description" text,
+    "time_create" timestamp default current_timestamp not null,
+    "time_update" timestamp default current_timestamp not null
+);
+create table sena(
+   "id" serial primary key,  
+    "usluga" integer not null,
+    "suv_bilan" integer not null,
+    "pustoy_smena" integer not null,
+    "time_create" timestamp default current_timestamp not null,
+    "time_update" timestamp default current_timestamp not null
+)
