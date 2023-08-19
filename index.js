@@ -15,6 +15,23 @@ const news=require('./routes/news.js')
 const preferences=require('./routes/preferences.js')
 const category=require('./routes/category.js')
 const users=require('./routes/user.js')
+const homeiy=require('./routes/homeiy.js')
+const skachat_pridlachenu=require('./routes/skachat_pridlachenu.js')
+const preferences=require('./routes/preferences.js')
+const category=require('./routes/category.js')
+
+const marka=require('./routes/marka.js')
+const sovuqlik=require('./routes/sovuqlik.js')
+const product=require('./routes/product.js')
+const tarif=require('./routes/tarif.js')
+const mashina=require('./routes/mashina.js')
+const shving=require('./routes/shving.js')
+const sena=require('./routes/sena.js')
+
+
+
+
+
 
 
 
@@ -36,6 +53,21 @@ app.use('/api',compony)
 app.use('/api',preferences)
 app.use('/api',category)
 app.use('/auth',users)
+app.use('/api',homeiy)
+app.use('/api',skachat_pridlachenu)
+app.use('/api',preferences)
+app.use('/api',category)
+app.use('/api',marka)
+app.use('/api',sovuqlik)
+app.use('/api',product)
+app.use('/api',tarif)
+app.use('/api',mashina)
+app.use('/api',shving)
+app.use('/api',sena)
+
+
+
+
 
 
 

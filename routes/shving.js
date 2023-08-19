@@ -36,8 +36,8 @@ router.post("/tarif", (req, res) => {
      }else{
       imgName=req.body.image
      }
-    pool.query('INSERT INTO tarif (image,title,sena_out_city,sena_city) VALUES ($1,$2,$3,$4) RETURNING *',
-        [imgName,body.title,body.sena_out_city,body.sena_city],
+    pool.query('INSERT INTO tarif (image,m,sena,description) VALUES ($1,$2,$3,$4) RETURNING *',
+        [imgName,body.m,body.sena,body.description],
          (err, result) => {
             if (err) {
                 res.status(400).send(err);
@@ -89,8 +89,8 @@ router.put("/tarif/:id", (req, res) => {
                 imgName=req.body.image
             }
      pool.query(
-        'UPDATE tarif SET title=$1,image=$2,sena_out_city=$3,time_update=$4,sena_city=$6 WHERE id = $5',
-         [body.title,imgName,body.sena_out_city,new Date(),id,body.sena_city],
+        'UPDATE tarif SET m=$1,image=$2,sena=$3,time_update=$4,description=$6 WHERE id = $5',
+         [body.m,imgName,body.sena,new Date(),id,body.description],
           (err, result) => {
             if (err) {
                 res.status(400).send(err)

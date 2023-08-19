@@ -48,8 +48,8 @@ var fomo_name
     fomo_file = req.files.fomo
     fomo_name = "2a"+Date.now()+fomo_file.name.slice(fomo_file.name.lastIndexOf('.'))
      }
-    pool.query('INSERT INTO users (position_id,patronymic,surname,username,phone,email,inn,recvizit,document_mashina,prava,fomo,login,password) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13) RETURNING *',
-        [body.position_id,body.patronymic,body.surname,body.username,body.phone,body.email,body.inn,body.recvizit,document_mashina_name,prava_name,fomo_name,body.login,body.password],
+    pool.query('INSERT INTO users (position_id,patronymic,surname,username,phone,email,inn,recvizit,document_mashina,prava,fomo,login,password,skitka) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14) RETURNING *',
+        [body.position_id,body.patronymic,body.surname,body.username,body.phone,body.email,body.inn,body.recvizit,document_mashina_name,prava_name,fomo_name,body.login,body.password,body.skitka],
          (err, result) => {
             if (err) {
                 res.status(400).send(err);
@@ -160,8 +160,8 @@ router.put("/users/:id", (req, res) => {
                 fs.unlink(`./Images/${a[0].image}`,()=>{})
             }
     pool.query(
-    'UPDATE users SET position_id = $1,patronymic=$2,surname=$3, username=$4,phone=$5,email=$6,inn=$7,recvizit=$8,login=$9,password=$10 WHERE id = $11',
-        [body.position_id, body.patronymic, body.surname,body.username,body.phone,body.email,body.inn,body.recvizit,body.login,body.password, id],
+    'UPDATE users SET position_id = $1,patronymic=$2,surname=$3, username=$4,phone=$5,email=$6,inn=$7,recvizit=$8,login=$9,password=$10,skitka=$11,bonus=$12 WHERE id = $13',
+        [body.position_id, body.patronymic, body.surname,body.username,body.phone,body.email,body.inn,body.recvizit,body.login,body.password,body.skitka,body.bonus, id],
         (err, result) => {
             if (err) {
                 res.status(400).send(err)
