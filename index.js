@@ -12,8 +12,8 @@ const position=require('./routes/position.js')
 const compony=require('./routes/compony.js')
 const news=require('./routes/news.js')
 
-const preferences=require('./routes/preferences.js')
-const category=require('./routes/category.js')
+
+
 const users=require('./routes/user.js')
 const homeiy=require('./routes/homeiy.js')
 const skachat_pridlachenu=require('./routes/skachat_pridlachenu.js')
@@ -51,11 +51,11 @@ app.use('/api',news)
 app.use('/api',compony)
 
 app.use('/api',preferences)
-app.use('/api',category)
+
 app.use('/auth',users)
 app.use('/api',homeiy)
 app.use('/api',skachat_pridlachenu)
-app.use('/api',preferences)
+
 app.use('/api',category)
 app.use('/api',marka)
 app.use('/api',sovuqlik)
