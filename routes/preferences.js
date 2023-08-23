@@ -78,7 +78,7 @@ router.put("/preferences/:id", (req, res) => {
     const id = req.params.id
     const body = req.body
     pool.query("SELECT * FROM preferences where id=$1", [req.params.id], (err, result1) => {
-        if (!err) {
+        if (!err) {  
             if(result1.rows[0].image){
                 fs.unlink(`./media/${result1.rows[0].image}`,()=>{})   
               }

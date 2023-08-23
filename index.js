@@ -11,6 +11,9 @@ const aksiya=require('./routes/aksiya.js')
 const position=require('./routes/position.js')
 const compony=require('./routes/compony.js')
 const news=require('./routes/news.js')
+
+
+
 const users=require('./routes/user.js')
 const homeiy=require('./routes/homeiy.js')
 const skachat_pridlachenu=require('./routes/skachat_pridlachenu.js')
@@ -33,6 +36,8 @@ const filial=require('./routes/filial.js')
 
 
 
+
+
 const pool = require("./db")
 
 
@@ -46,10 +51,13 @@ app.use('/api',aksiya)
 app.use('/api',position)
 app.use('/api',news)
 app.use('/api',compony)
+
+app.use('/api',preferences)
+
 app.use('/auth',users)
 app.use('/api',homeiy)
 app.use('/api',skachat_pridlachenu)
-app.use('/api',preferences)
+
 app.use('/api',category)
 app.use('/api',marka)
 app.use('/api',sovuqlik)
@@ -59,6 +67,7 @@ app.use('/api',mashina)
 app.use('/api',shving)
 app.use('/api',sena)
 app.use('/api',filial)
+
 
 
 

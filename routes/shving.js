@@ -5,8 +5,8 @@ var jwt = require('jsonwebtoken');
 const pool = require("../db")
 
 
-router.get("/tarif", (req, res) => {   
-    pool.query("SELECT * FROM tarif", (err, result) => {
+router.get("/shving", (req, res) => {   
+    pool.query("SELECT * FROM shving", (err, result) => {
         if (!err) {
             res.status(200).send(result.rows)
         } else {
@@ -15,9 +15,9 @@ router.get("/tarif", (req, res) => {
     })
 })  
 
-router.get('/tarif/:id', (req, res) => {
+router.get('/shving/:id', (req, res) => {
     
-    pool.query("SELECT * FROM tarif where id=$1", [req.params.id], (err, result) => {
+    pool.query("SELECT * FROM shving where id=$1", [req.params.id], (err, result) => {
         if (!err) {
             res.status(200).send(result.rows)
         } else {
@@ -27,7 +27,7 @@ router.get('/tarif/:id', (req, res) => {
 })
 
 
-router.post("/tarif", (req, res) => {
+router.post("/shving", (req, res) => {
     const body = req.body;
     var imgName="";
     if(req.files){
@@ -36,7 +36,7 @@ router.post("/tarif", (req, res) => {
      }else{
       imgName=req.body.image
      }
-    pool.query('INSERT INTO tarif (image,m,sena,description) VALUES ($1,$2,$3,$4) RETURNING *',
+    pool.query('INSERT INTO shving (image,m,sena,description) VALUES ($1,$2,$3,$4) RETURNING *',
         [imgName,body.m,body.sena,body.description],
          (err, result) => {
             if (err) {
@@ -51,18 +51,18 @@ router.post("/tarif", (req, res) => {
         });
 });
 
-router.delete("/tarif/:id", (req, res) => {
+router.delete("/shving/:id", (req, res) => {
     const id = req.params.id
-    pool.query("SELECT * FROM tarif where id=$1", [req.params.id], (err, result1) => {
+    pool.query("SELECT * FROM shving where id=$1", [req.params.id], (err, result1) => {
         console.log(result1.rows);
      if (!err && result1.rows.length>0) {
             if(result1.rows[0] && result1.rows[0].image){
               fs.unlink(`./media/${result1.rows[0].image}`,()=>{})   
             }
-            pool.query('DELETE FROM tarif WHERE id = $1', [id], (err, result) => {
+            pool.query('DELETE FROM shving WHERE id = $1', [id], (err, result) => {
                 if (err) {
                     res.status(400).send(
-                        {err:err,message:"tarif id topilmadi "}
+                        {err:err,message:"shving id topilmadi "}
                     )
                 } else {
                     res.status(200).send("Deleted")
@@ -74,10 +74,10 @@ router.delete("/tarif/:id", (req, res) => {
     })
    
 })
-router.put("/tarif/:id", (req, res) => {
+router.put("/shving/:id", (req, res) => {
     const id = req.params.id
     const body = req.body
-    pool.query("SELECT * FROM tarif where id=$1", [req.params.id], (err, result1) => {
+    pool.query("SELECT * FROM shving where id=$1", [req.params.id], (err, result1) => {
         if (!err) {
             if(result1.rows[0].image){
                 fs.unlink(`./media/${result1.rows[0].image}`,()=>{})   
@@ -89,7 +89,7 @@ router.put("/tarif/:id", (req, res) => {
                 imgName=req.body.image
             }
      pool.query(
-        'UPDATE tarif SET m=$1,image=$2,sena=$3,time_update=$4,description=$6 WHERE id = $5',
+        'UPDATE shving SET m=$1,image=$2,sena=$3,time_update=$4,description=$6 WHERE id = $5',
          [body.m,imgName,body.sena,new Date(),id,body.description],
           (err, result) => {
             if (err) {
