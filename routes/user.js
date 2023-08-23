@@ -49,7 +49,7 @@ var fomo_name
     fomo_name = "2a"+Date.now()+fomo_file.name.slice(fomo_file.name.lastIndexOf('.'))
      }
     pool.query('INSERT INTO users (position_id,patronymic,surname,username,phone,email,inn,recvizit,document_mashina,prava,fomo,login,password,skitka) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14) RETURNING *',
-        [body.position_id,body.patronymic,body.surname,body.username,body.phone,body.email,body.inn,body.recvizit,document_mashina_name,prava_name,fomo_name,body.login,body.password,body.skitka],
+        [body.position_id,body.patronymic,body.surname,body.username,body.phone,body.email,body.inn?body.inn:"null",body.recvizit?body.recvizit:"null",body.document_mashina_name?body.document_mashina_name:"null",prava_name?body.prava_name:"null",body.fomo_name?body.fomo_name:"null",body.login,body.password,body.skitka],
          (err, result) => {
             if (err) {
                 res.status(400).send(err);
