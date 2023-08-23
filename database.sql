@@ -157,3 +157,31 @@ create table sena(
     "time_create" timestamp default current_timestamp not null,
     "time_update" timestamp default current_timestamp not null
 )
+
+create table filial(
+ "id" serial primary key,
+ "latitude" integer not null,
+ "title" VARCHAR(50) NOT null,
+ "image" text,
+ "longitude" integer not null,
+ "time_create" timestamp default current_timestamp not null,
+ "time_update" timestamp default current_timestamp not null     
+)
+create table zakaz(
+ "id" serial primary key,  
+ "address" VARCHAR(100) not null,
+ "day" date not null,
+ "time" time not null,
+ "category" VARCHAR(50) not null,
+ "positsiya"  VARCHAR(50) not null,
+ "m3" integer not null,
+ "description" text,
+ "payment" VARCHAR(50) not null,
+ "tarif" VARCHAR(50) not null,
+ "mashina" integer not null,
+ "work_time_shving" VARCHAR(50) not null,
+ "price" integer not null,
+ "status" VARCHAR(50) default "Не выполнен" not null,
+  "time_create" timestamp default current_timestamp not null,
+  "time_update" timestamp default current_timestamp not null   
+)

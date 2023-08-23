@@ -24,6 +24,8 @@ const tarif=require('./routes/tarif.js')
 const mashina=require('./routes/mashina.js')
 const shving=require('./routes/shving.js')
 const sena=require('./routes/sena.js')
+const filial=require('./routes/filial.js')
+
 
 
 
@@ -56,6 +58,8 @@ app.use('/api',tarif)
 app.use('/api',mashina)
 app.use('/api',shving)
 app.use('/api',sena)
+app.use('/api',filial)
+
 
 
 
