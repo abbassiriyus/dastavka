@@ -1,6 +1,6 @@
 create table users(
- "id" serial primary key,
- "position_id" integer NOT NULL,
+  "id" serial primary key,
+  "position_id" integer NOT NULL,
  "patronymic" VARCHAR(50) not null,
  "surname" VARCHAR(50) not null,
  "username" VARCHAR(50) not null,
@@ -18,7 +18,7 @@ create table users(
  UNIQUE(email),
  UNIQUE(phone),
  UNIQUE(inn),
- "time_create" timestamp default current_timestamp not null,
+. "time_create" timestamp default current_timestamp not null,
  "time_update" timestamp default current_timestamp not null
 );
 create table position (
