@@ -3,7 +3,7 @@ var express = require('express');
 var router = express.Router();
 var jwt = require('jsonwebtoken');
 const pool = require("../db")
-
+const fs =require('fs')
 
 router.get("/category", (req, res) => {   
     pool.query("SELECT * FROM category", (err, result) => {
