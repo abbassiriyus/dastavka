@@ -36,8 +36,8 @@ router.post("/category", (req, res) => {
      }else{
       imgName=req.body.image
      }
-    pool.query('INSERT INTO category (image,title,deskription) VALUES ($1,$2,$3) RETURNING *',
-        [imgName,body.title,body.deskription],
+    pool.query('INSERT INTO category (image,title,description) VALUES ($1,$2,$3) RETURNING *',
+        [imgName,body.title,body.description],
          (err, result) => {
             if (err) {
                 res.status(400).send(err);

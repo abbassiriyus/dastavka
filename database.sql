@@ -86,7 +86,7 @@
     create table category(
         "id" serial primary key,
         "image" text,
-        "title" VARCHAR (50) ,
+        "title" VARCHAR(50) ,
         "description" text,
         "time_create" timestamp default current_timestamp not null,
         "time_update" timestamp default current_timestamp not null
