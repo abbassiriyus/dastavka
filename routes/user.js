@@ -104,7 +104,7 @@ router.post('/login', function(req, res) {
 router.get('/oneuser', function(req, res) {
    var body=req.body
    var result1
-   const bearerHeader=req.headers['authorization']
+   const bearerHeader=req.headers['+']
    const bearer=bearerHeader.split(" ")
    const bearerToken=bearer[1]
    req.token=bearerToken

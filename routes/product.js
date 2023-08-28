@@ -31,8 +31,9 @@ router.get('/product/:id', (req, res) => {
 
 router.post("/product", (req, res) => {
     const body = req.body;
-        pool.query('INSERT INTO product (description,s3_sena,s4_sena,marka,hydrophobic_additive_sena,Fiber_fiber,homiy_id) VALUES ($1,$2,$3,$4,$5,$6,$7) RETURNING *',
-        [body.description,body.s3_sena,body.s4_sena,body.marka,body.hydrophobic_additive_sena,body.Fiber_fiber,body.homiy_id],
+   
+        pool.query('INSERT INTO product (description,s3_sena,s4_sena,marka,hydrophobic_additive_sena,fiber_fiber,homiy_id,category) VALUES ($1,$2,$3,$4,$5,$6,$7,$8) RETURNING *',
+        [body.description,body.s3_sena,body.s4_sena,body.marka,body.hydrophobic_additive_sena,body.fiber_fiber,body.homiy_id,body.category],
          (err, result) => {
             if (err) {
                 res.status(400).send(err);
@@ -56,8 +57,8 @@ router.put("/product/:id", (req, res) => {
     const id = req.params.id
     const body = req.body
     pool.query(
-        'UPDATE product SET description=$1,time_update=$3,s3_sena=$4,s4_sena=$5,marka=$6,hydrophobic_additive_sena=$7,Fiber_fiber=$8,homiy_id=$9 WHERE id = $2',
-        [body.description,id,new Date(),body.s3_sena,body.s4_sena,body.marka,body.hydrophobic_additive_sena,body.Fiber_fiber,body.homiy_id],
+        'UPDATE product SET description=$1,time_update=$3,s3_sena=$4,s4_sena=$5,marka=$6,hydrophobic_additive_sena=$7,fiber_fiber=$8,homiy_id=$9,category=$10 WHERE id = $2',
+        [body.description,id,new Date(),body.s3_sena,body.s4_sena,body.marka,body.hydrophobic_additive_sena,body.fiber_fiber,body.homiy_id,body.category],
         (err, result) => {
             if (err) {
                 res.status(400).send(err)

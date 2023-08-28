@@ -54,7 +54,7 @@ router.post("/compony", (req, res) => {
 router.delete("/compony/:id", (req, res) => {
     const id = req.params.id
     pool.query("SELECT * FROM compony where id=$1", [req.params.id], (err, result1) => {
-        console.log(result1.rows);
+  
      if (!err && result1.rows.length>0) {
             if(result1.rows[0] && result1.rows[0].logo){
               fs.unlink(`./media/${result1.rows[0].logo}`,()=>{})   

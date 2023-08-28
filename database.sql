@@ -60,6 +60,7 @@
     create table homeiy(
         "id" serial primary key,
         "image" text,
+        "title" VARCHAR(50),
         "link" text NOT NULL,
         "time_create" timestamp default current_timestamp not null,
         "time_update" timestamp default current_timestamp not null
@@ -80,8 +81,7 @@
         "description" text,
         "liso" VARCHAR  (1),
         "time_create" timestamp default current_timestamp not null,
-        "time_update" timestamp default current_timestamp not null
-        
+        "time_update" timestamp default current_timestamp not null  
     );
     create table category(
         "id" serial primary key,
@@ -115,12 +115,13 @@
         "description" text,
         "s3_sena" integer NOT NULL,
         "s4_sena" integer NOT NULL,
-        "marka" integer not null,
-        "hydrophobic_additive_sena" integer not Null,
-        "Fiber_fiber" integer not null, 
-        "homiy_id" integer Not null,
-        "time_create" timestamp default current_timestamp not null,
-        "time_update" timestamp default current_timestamp not null
+        "marka" integer NOT NULL,
+        "category" integer NOT NULL,
+        "hydrophobic_additive_sena" integer NOT NULL,
+        "fiber_fiber" integer NOT NULL, 
+        "homiy_id" integer NOT NULL,
+        "time_create" timestamp default current_timestamp NOT NULL,
+        "time_update" timestamp default current_timestamp NOT NULL
     );
     create table tarif(
         "id" serial primary key,

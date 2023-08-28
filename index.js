@@ -49,6 +49,8 @@ app.use(bodyParser.json());
 
 app.use('/api',aksiya)
 app.use('/api',position)
+
+
 app.use('/api',news)
 app.use('/api',compony)
 

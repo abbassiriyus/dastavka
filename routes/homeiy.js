@@ -3,7 +3,7 @@ var express = require('express');
 var router = express.Router();
 var jwt = require('jsonwebtoken');
 const pool = require("../db")
-
+var fs=require('fs')
 
 router.get("/homeiy", (req, res) => {   
     pool.query("SELECT * FROM homeiy", (err, result) => {
@@ -36,8 +36,8 @@ router.post("/homeiy", (req, res) => {
      }else{
       imgName=req.body.image
      }
-    pool.query('INSERT INTO homeiy (image,link) VALUES ($1,$2) RETURNING *',
-        [imgName,body.link],
+    pool.query('INSERT INTO homeiy (image,link,title) VALUES ($1,$2,$3) RETURNING *',
+        [imgName,body.link,body.title],
          (err, result) => {
             if (err) {
                 res.status(400).send(err);
@@ -54,7 +54,7 @@ router.post("/homeiy", (req, res) => {
 router.delete("/homeiy/:id", (req, res) => {
     const id = req.params.id
     pool.query("SELECT * FROM homeiy where id=$1", [req.params.id], (err, result1) => {
-        console.log(result1.rows);
+     
      if (!err && result1.rows.length>0) {
             if(result1.rows[0] && result1.rows[0].image){
               fs.unlink(`./media/${result1.rows[0].image}`,()=>{})   
@@ -89,8 +89,8 @@ router.put("/homeiy/:id", (req, res) => {
                 imgName=req.body.image
             }
      pool.query(
-        'UPDATE homeiy SET link=$1,image=$2,time_update=$3 WHERE id = $4',
-         [body.link,imgName,new Date(),id],
+        'UPDATE homeiy SET link=$1,image=$2, time_update=$3,title=$5 WHERE id = $4',
+         [body.link,imgName,new Date(),id,body.title],
           (err, result) => {
             if (err) {
                 res.status(400).send(err)

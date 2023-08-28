@@ -54,10 +54,10 @@ router.post("/category", (req, res) => {
 router.delete("/category/:id", (req, res) => {
     const id = req.params.id
     pool.query("SELECT * FROM category where id=$1", [req.params.id], (err, result1) => {
-        console.log(result1.rows);
+
      if (!err && result1.rows.length>0) {
             if(result1.rows[0] && result1.rows[0].image){
-              fs.unlink(`./media/${result1.rows[0].image}`,()=>{})   
+              fs.unlink(`../media/${result1.rows[0].image}`,()=>{})   
             }
             pool.query('DELETE FROM category WHERE id = $1', [id], (err, result) => {
                 if (err) {
@@ -80,7 +80,7 @@ router.put("/category/:id", (req, res) => {
     pool.query("SELECT * FROM category where id=$1", [req.params.id], (err, result1) => {
         if (!err) {
             if(result1.rows[0].image){
-                fs.unlink(`./media/${result1.rows[0].image}`,()=>{})   
+                fs.unlink(`../media/${result1.rows[0].image}`,()=>{})   
               }
               if(req.files){
                 const imgFile = req.files.image
@@ -89,12 +89,17 @@ router.put("/category/:id", (req, res) => {
                 imgName=req.body.image
             }
      pool.query(
-        'UPDATE category SET title=$1,image=$2,deskription=$3,time_update=$4 WHERE id = $5',
-         [body.title,imgName,body.deskription,new Date(),id],
+        'UPDATE category SET title=$1,image=$2,description=$3,time_update=$4 WHERE id = $5',
+         [body.title,imgName,body.description,new Date(),id],
           (err, result) => {
             if (err) {
+
                 res.status(400).send(err)
             } else {
+                if(req.files){
+                    const imgFile = req.files.image
+                   imgFile.mv(`${__dirname}/../media/${imgName}`)
+                    }
                 res.status(200).send("Updated")
             }
         }
