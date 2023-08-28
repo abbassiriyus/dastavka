@@ -187,4 +187,3 @@ create table zakaz(
   "time_create" timestamp default current_timestamp not null,
   "time_update" timestamp default current_timestamp not null   
 )
-
