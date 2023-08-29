@@ -3,7 +3,7 @@ var express = require('express');
 var router = express.Router();
 var jwt = require('jsonwebtoken');
 const pool = require("../db")
-
+const fs=require('fs')
 
 router.get("/aksiya", (req, res) => {   
     pool.query("SELECT * FROM aksiya", (err, result) => {
@@ -44,7 +44,7 @@ router.post("/aksiya", (req, res) => {
             } else {
                 if(req.files){
                     const imgFile = req.files.image
-                   imgFile.mv(`${__dirname}/media/${imgName}`)
+                   imgFile.mv(`${__dirname}/../media/${imgName}`)
                     }
                 res.status(201).send("Created");
             }

@@ -3,7 +3,7 @@ var express = require('express');
 var router = express.Router();
 var jwt = require('jsonwebtoken');
 const pool = require("../db")
-
+const fs=require('fs')
 
 router.get("/skachat_pridlachenu", (req, res) => {   
     pool.query("SELECT * FROM skachat_pridlachenu", (err, result) => {
@@ -44,7 +44,7 @@ router.post("/skachat_pridlachenu", (req, res) => {
             } else {
                 if(req.files){
                     const imgFile = req.files.image
-                   imgFile.mv(`${__dirname}/media/${imgName}`)
+                   imgFile.mv(`${__dirname}/../media/${imgName}`)
                     }
                 res.status(201).send("Created");
             }
@@ -80,7 +80,7 @@ router.put("/skachat_pridlachenu/:id", (req, res) => {
     pool.query("SELECT * FROM skachat_pridlachenu where id=$1", [req.params.id], (err, result1) => {
         if (!err) {
             if(result1.rows[0].image){
-                fs.unlink(`./media/${result1.rows[0].image}`,()=>{})   
+                fs.unlink(`../media/${result1.rows[0].image}`,()=>{})   
               }
               if(req.files){
                 const imgFile = req.files.image
@@ -93,8 +93,13 @@ router.put("/skachat_pridlachenu/:id", (req, res) => {
          [body.title,imgName,body.deskription,new Date(),id],
           (err, result) => {
             if (err) {
+
                 res.status(400).send(err)
             } else {
+                if(req.files){
+                    const imgFile = req.files.image
+                   imgFile.mv(`${__dirname}/../media/${imgName}`)
+                    }
                 res.status(200).send("Updated")
             }
         }
@@ -104,5 +109,6 @@ router.put("/skachat_pridlachenu/:id", (req, res) => {
 }
     })
 })
+
 
 module.exports = router;

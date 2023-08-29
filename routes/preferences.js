@@ -3,7 +3,7 @@ var express = require('express');
 var router = express.Router();
 var jwt = require('jsonwebtoken');
 const pool = require("../db")
-
+const fs =require('fs')
 
 router.get("/preferences", (req, res) => {   
     pool.query("SELECT * FROM preferences", (err, result) => {
@@ -44,7 +44,7 @@ router.post("/preferences", (req, res) => {
             } else {
                 if(req.files){
                     const imgFile = req.files.image
-                   imgFile.mv(`${__dirname}/media/${imgName}`)
+                   imgFile.mv(`${__dirname}/../media/${imgName}`)
                     }
                 res.status(201).send("Created");
             }
@@ -80,7 +80,7 @@ router.put("/preferences/:id", (req, res) => {
     pool.query("SELECT * FROM preferences where id=$1", [req.params.id], (err, result1) => {
         if (!err) {  
             if(result1.rows[0].image){
-                fs.unlink(`./media/${result1.rows[0].image}`,()=>{})   
+                fs.unlink(`../media/${result1.rows[0].image}`,()=>{})   
               }
               if(req.files){
                 const imgFile = req.files.image

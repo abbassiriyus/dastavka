@@ -43,8 +43,8 @@ router.post("/homeiy", (req, res) => {
                 res.status(400).send(err);
             } else {
                 if(req.files){
-                    const imgFile = req.files.image
-                   imgFile.mv(`${__dirname}/media/${imgName}`)
+                   const imgFile = req.files.image
+                   imgFile.mv(`${__dirname}/../media/${imgName}`)
                     }
                 res.status(201).send("Created");
             }
@@ -65,6 +65,10 @@ router.delete("/homeiy/:id", (req, res) => {
                         {err:err,message:"homeiy id topilmadi "}
                     )
                 } else {
+                    if(req.files){
+                        const imgFile = req.files.image
+                       imgFile.mv(`${__dirname}/media/${imgName}`)
+                     }
                     res.status(200).send("Deleted")
                 }
             })
@@ -74,13 +78,14 @@ router.delete("/homeiy/:id", (req, res) => {
     })
    
 })
+
 router.put("/homeiy/:id", (req, res) => {
     const id = req.params.id
     const body = req.body
     pool.query("SELECT * FROM homeiy where id=$1", [req.params.id], (err, result1) => {
         if (!err) {
             if(result1.rows[0].image){
-                fs.unlink(`./media/${result1.rows[0].image}`,()=>{})   
+                fs.unlink(`../media/${result1.rows[0].image}`,()=>{})   
               }
               if(req.files){
                 const imgFile = req.files.image
@@ -89,12 +94,17 @@ router.put("/homeiy/:id", (req, res) => {
                 imgName=req.body.image
             }
      pool.query(
-        'UPDATE homeiy SET link=$1,image=$2, time_update=$3,title=$5 WHERE id = $4',
-         [body.link,imgName,new Date(),id,body.title],
+        'UPDATE homeiy SET title=$1,image=$2,link=$3,time_update=$4 WHERE id = $5',
+         [body.title,imgName,body.link,new Date(),id],
           (err, result) => {
             if (err) {
+
                 res.status(400).send(err)
             } else {
+                if(req.files){
+                    const imgFile = req.files.image
+                   imgFile.mv(`${__dirname}/../media/${imgName}`)
+                    }
                 res.status(200).send("Updated")
             }
         }
@@ -104,5 +114,4 @@ router.put("/homeiy/:id", (req, res) => {
 }
     })
 })
-
 module.exports = router;
