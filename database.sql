@@ -1,5 +1,5 @@
 
-    create table users(
+create table users(
     "id" serial primary key,
     "position_id" integer NOT NULL,
     "patronymic" VARCHAR(50) not null,
@@ -21,13 +21,8 @@
     UNIQUE(inn),
     "time_create" timestamp default current_timestamp not null,
     "time_update" timestamp default current_timestamp not null
-    );
-    create table position (
-    "id" serial primary key,
-    "position_name" VARCHAR(50),
-    "time_create" timestamp default current_timestamp not null,
-    "time_update" timestamp default current_timestamp not null   
-    );
+);
+
     create table aksiya(
         "id" serial primary key,
         "title" VARCHAR (50) NOT NULL,
@@ -47,16 +42,7 @@
         "time_create" timestamp default current_timestamp not null,
         "time_update" timestamp default current_timestamp not null
     );
-    create table compony(
-        "id" serial primary key,
-        "logo" text,
-        "phone" VARCHAR (50),
-        "telegram" VARCHAR (50),
-        "email" VARCHAR (50) NOT NULL,
-        "whatsapp" VARCHAR (50),
-        "time_create" timestamp default current_timestamp not null,
-        "time_update" timestamp default current_timestamp NOT NULL
-    );
+
     create table homeiy(
         "id" serial primary key,
         "image" text,
@@ -90,11 +76,33 @@
         "description" text,
         "time_create" timestamp default current_timestamp not null,
         "time_update" timestamp default current_timestamp not null
+    );    
+    create table position (
+    "id" serial primary key,
+    "position_name" VARCHAR(50),
+    "time_create" timestamp default current_timestamp not null,
+    "time_update" timestamp default current_timestamp not null   
+    );
+    create table compony(
+        "id" serial primary key,
+        "logo" text,
+        "phone" VARCHAR (50),
+        "telegram" VARCHAR (50),
+        "email" VARCHAR (50) NOT NULL,
+        "whatsapp" VARCHAR (50),
+        "time_create" timestamp default current_timestamp not null,
+        "time_update" timestamp default current_timestamp NOT NULL
     );
 
-
-
-
+create table filial(
+ "id" serial primary key,
+ "latitude" integer not null,
+ "title" VARCHAR(50) NOT null,
+ "image" text,
+ "longitude" integer not null,
+ "time_create" timestamp default current_timestamp not null,
+ "time_update" timestamp default current_timestamp not null     
+)
 
    create table marka(
         "id" serial primary key,
@@ -160,15 +168,7 @@ create table sena(
     "time_update" timestamp default current_timestamp not null
 )
 
-create table filial(
- "id" serial primary key,
- "latitude" integer not null,
- "title" VARCHAR(50) NOT null,
- "image" text,
- "longitude" integer not null,
- "time_create" timestamp default current_timestamp not null,
- "time_update" timestamp default current_timestamp not null     
-)
+
 create table zakaz(
  "id" serial primary key,  
  "address" VARCHAR(100) not null,
