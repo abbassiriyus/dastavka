@@ -3,7 +3,7 @@ var express = require('express');
 var router = express.Router();
 var jwt = require('jsonwebtoken');
 const pool = require("../db")
-
+const fs =require('fs')
 
 router.get("/filial", (req, res) => {   
     pool.query("SELECT * FROM filial", (err, result) => {
@@ -30,6 +30,7 @@ router.get('/filial/:id', (req, res) => {
 router.post("/filial", (req, res) => {
     const body = req.body;
     var imgName="";
+    console.log(body);
     if(req.files){
     var imgFile = req.files.image
     imgName = Date.now()+imgFile.name.slice(imgFile.name.lastIndexOf('.'))
@@ -44,7 +45,7 @@ router.post("/filial", (req, res) => {
             } else {
                 if(req.files){
                     const imgFile = req.files.image
-                   imgFile.mv(`${__dirname}/media/${imgName}`)
+                   imgFile.mv(`${__dirname}/../media/${imgName}`)
                     }
                 res.status(201).send("Created");
             }
@@ -94,6 +95,10 @@ router.put("/filial/:id", (req, res) => {
             if (err) {
                 res.status(400).send(err)
             } else {
+                 if(req.files){
+                    const imgFile = req.files.image
+                   imgFile.mv(`${__dirname}/../media/${imgName}`)
+                    }
                 res.status(200).send("Updated")
             }
         }

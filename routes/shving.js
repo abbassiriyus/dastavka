@@ -3,7 +3,7 @@ var express = require('express');
 var router = express.Router();
 var jwt = require('jsonwebtoken');
 const pool = require("../db")
-
+const fs=require('fs')
 
 router.get("/shving", (req, res) => {   
     pool.query("SELECT * FROM shving", (err, result) => {
@@ -44,7 +44,7 @@ router.post("/shving", (req, res) => {
             } else {
                 if(req.files){
                     const imgFile = req.files.image
-                   imgFile.mv(`${__dirname}/media/${imgName}`)
+                   imgFile.mv(`${__dirname}/../media/${imgName}`)
                     }
                 res.status(201).send("Created");
             }
@@ -77,6 +77,7 @@ router.delete("/shving/:id", (req, res) => {
 router.put("/shving/:id", (req, res) => {
     const id = req.params.id
     const body = req.body
+
     pool.query("SELECT * FROM shving where id=$1", [req.params.id], (err, result1) => {
         if (!err) {
             if(result1.rows[0].image){
@@ -95,6 +96,10 @@ router.put("/shving/:id", (req, res) => {
             if (err) {
                 res.status(400).send(err)
             } else {
+                if(req.files){
+                    const imgFile = req.files.image
+                   imgFile.mv(`${__dirname}/../media/${imgName}`)
+                    }
                 res.status(200).send("Updated")
             }
         }

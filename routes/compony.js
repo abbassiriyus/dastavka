@@ -3,7 +3,7 @@ var express = require('express');
 var router = express.Router();
 var jwt = require('jsonwebtoken');
 const pool = require("../db")
-
+const fs=require('fs')
 
 router.get("/compony", (req, res) => {   
     pool.query("SELECT * FROM compony", (err, result) => {
@@ -44,7 +44,7 @@ router.post("/compony", (req, res) => {
             } else {
                 if(req.files){
                     const imgFile = req.files.logo
-                   imgFile.mv(`${__dirname}/media/${imgName}`)
+                   imgFile.mv(`${__dirname}/../media/${imgName}`)
                     }
                 res.status(201).send("Created");
             }
@@ -95,6 +95,10 @@ router.put("/compony/:id", (req, res) => {
             if (err) {
                 res.status(400).send(err)
             } else {
+                if(req.files){
+                    const imgFile = req.files.logo
+                   imgFile.mv(`${__dirname}/../media/${imgName}`)
+                    }
                 res.status(200).send("Updated")
             }
         }

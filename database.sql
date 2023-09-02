@@ -23,7 +23,7 @@ create table users(
     "time_update" timestamp default current_timestamp not null
 );
 
-    create table aksiya(
+create table aksiya(
         "id" serial primary key,
         "title" VARCHAR (50) NOT NULL,
         "image" text,
@@ -77,7 +77,7 @@ create table users(
         "time_create" timestamp default current_timestamp not null,
         "time_update" timestamp default current_timestamp not null
     );    
-    create table position (
+create table position (
     "id" serial primary key,
     "position_name" VARCHAR(50),
     "time_create" timestamp default current_timestamp not null,
@@ -104,7 +104,7 @@ create table filial(
  "time_update" timestamp default current_timestamp not null     
 )
 
-   create table marka(
+create table marka(
         "id" serial primary key,
         "title" VARCHAR (50),
         "time_create" timestamp default current_timestamp not null,
