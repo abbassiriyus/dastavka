@@ -183,7 +183,7 @@ create table zakaz(
  "mashina" integer not null,
  "work_time_shving" VARCHAR(50) not null,
  "price" integer not null,
- "status" VARCHAR(50) default "Не выполнен" not null,
+ "status" VARCHAR(50) default 0 not null,
   "time_create" timestamp default current_timestamp not null,
   "time_update" timestamp default current_timestamp not null   
 )
