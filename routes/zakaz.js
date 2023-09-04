@@ -32,8 +32,8 @@ router.get('/zakaz/:id', (req, res) => {
 router.post("/zakaz", (req, res) => {
     const body = req.body;
    
-        pool.query('INSERT INTO product (address,day,time,marka,category,positsiya,m3,description,payment,tarif,mashina,work_time_shving,status) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13) RETURNING *',
-        [body.address,body.day,body.time,body.marka,body.category,body.positsiya,body.m3,body.description.body,payment,body,tarif,body,mashina.body,work_time_shving,body,status],
+        pool.query('INSERT INTO zakaz (address,day,category,positsiya,time,m3,description,payment,tarif,mashina,work_time_shving,price,status) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13) RETURNING *',
+        [body.address,body.day,body.category,body.positsiya,body.time,body.m3,body.description,body.payment,body.tarif,body.mashina,body.work_time_shving,body.price,body.status],
          (err, result) => {
             if (err) {
                 res.status(400).send(err);
@@ -56,9 +56,10 @@ router.delete("/zakaz/:id", (req, res) => {
 router.put("/zakaz/:id", (req, res) => {
     const id = req.params.id
     const body = req.body
+    console.log(body);
     pool.query(
-        'UPDATE product SET address=$1,day=$2,time=$3,category=$4,positsiya=$5,m3=$6,description=$7,payment=$8,tarif=$9,mashina=$10,work_time_shving=$11,price=$12,status=$13 WHERE id = $2',
-        [body.address,id,new Date(),body.day,body.time,body.category,body.positsiya,body.m3,body.description,body.payment,body.tarif,body.mashina,body.work_time_shving,body.price,body.status],
+        'UPDATE zakaz SET address=$1,day=$2,time=$3,category=$4,positsiya=$5,m3=$6,description=$7,payment=$8,tarif=$9,mashina=$10,work_time_shving=$11,price=$12,status=$13 WHERE id = $14',
+        [body.address,body.day,body.time,body.category,body.positsiya,body.m3,body.description,body.payment,body.tarif,body.mashina,body.work_time_shving,body.price,body.status,id],
         (err, result) => {
             if (err) {
                 res.status(400).send(err)
