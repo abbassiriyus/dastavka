@@ -184,6 +184,9 @@ create table zakaz(
  "work_time_shving" VARCHAR(50) not null,
  "price" integer not null,
  "status" VARCHAR(50) default 0 not null,
+ "shving" VARCHAR (50) not null,
+ "marka" integer (50) not null,
+ "bonus" integer not null
   "time_create" timestamp default current_timestamp not null,
   "time_update" timestamp default current_timestamp not null   
 )
