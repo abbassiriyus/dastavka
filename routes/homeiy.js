@@ -32,7 +32,7 @@ router.post("/homeiy", (req, res) => {
     var imgName="";
     if(req.files){
     var imgFile = req.files.image
-    imgName = Date.now()+imgFile.name.slice(imgFile.name.lastIndexOf('.'))
+    imgName =req.hostname+Date.now()+imgFile.name.slice(imgFile.name.lastIndexOf('.'))
      }else{
       imgName=req.body.image
      }
@@ -86,7 +86,7 @@ router.put("/homeiy/:id", (req, res) => {
         if (!err) {
               if(req.files){
                 const imgFile = req.files.image
-                 imgName = Date.now()+imgFile.name.slice(imgFile.name.lastIndexOf('.'))
+                 imgName =req.hostname+Date.now()+imgFile.name.slice(imgFile.name.lastIndexOf('.'))
             }else{
                 imgName=req.body.image
             }
