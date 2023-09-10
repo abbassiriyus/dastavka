@@ -32,7 +32,7 @@ router.post("/category", (req, res) => {
     var imgName="";
     if(req.files){
     var imgFile = req.files.image
-    imgName = Date.now()+imgFile.name.slice(imgFile.name.lastIndexOf('.'))
+    imgName = req.hostname+Date.now()+imgFile.name.slice(imgFile.name.lastIndexOf('.'))
      }else{
       imgName=req.body.image
      }
@@ -83,7 +83,7 @@ router.put("/category/:id", (req, res) => {
               }
               if(req.files){
                 const imgFile = req.files.image
-                 imgName = Date.now()+imgFile.name.slice(imgFile.name.lastIndexOf('.'))
+                 imgName = req.hostname+Date.now()+imgFile.name.slice(imgFile.name.lastIndexOf('.'))
             }else{
                 imgName=req.body.image
             }

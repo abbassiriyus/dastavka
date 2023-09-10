@@ -16,7 +16,6 @@ router.get("/homeiy", (req, res) => {
 })  
 
 router.get('/homeiy/:id', (req, res) => {
-    
     pool.query("SELECT * FROM homeiy where id=$1", [req.params.id], (err, result) => {
         if (!err) {
             res.status(200).send(result.rows)
