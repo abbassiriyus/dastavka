@@ -65,7 +65,9 @@ var fomo_name
                     fomo_file.mv(`${__dirname}/media/${fomo_name}`)  
                 }
                     }
-                res.status(201).send("Created");
+                    token = jwt.sign({"password":req.body.password,"login":req.body.login}, 'secret');
+                    position=req.body.position   
+                res.status(201).send({access:token,position});
             }
         });
   
@@ -85,7 +87,7 @@ router.post('/login', function(req, res) {
         result.rows.map(item=>{
         if(item.password==body.password && item.login==body.login){
         token = jwt.sign({"password":item.password,"login":item.login}, 'secret');
-            position=item.position
+        position=item.position
                  a=true}
            })
        if(!a){res.status(500).send("Royhatdan o`tmagan") }else{
@@ -152,7 +154,7 @@ router.put("/users/:id", (req, res) => {
     const body = req.body
     if(req.files){
    const imgFile = req.files.image
-   var imgName = Date.now()+imgFile.name.slice(imgFile.name.lastIndexOf('.'))
+   var imgName = req.hostname+Date.now()+imgFile.name.slice(imgFile.name.lastIndexOf('.'))
     pool.query("SELECT * FROM users", (err, result) => {
         if (!err) {
             var a=result.rows.filter(item=>item.id==req.params.id) 

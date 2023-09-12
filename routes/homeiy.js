@@ -16,7 +16,6 @@ router.get("/homeiy", (req, res) => {
 })  
 
 router.get('/homeiy/:id', (req, res) => {
-    
     pool.query("SELECT * FROM homeiy where id=$1", [req.params.id], (err, result) => {
         if (!err) {
             res.status(200).send(result.rows)
@@ -32,7 +31,7 @@ router.post("/homeiy", (req, res) => {
     var imgName="";
     if(req.files){
     var imgFile = req.files.image
-    imgName = Date.now()+imgFile.name.slice(imgFile.name.lastIndexOf('.'))
+    imgName =req.hostname+Date.now()+imgFile.name.slice(imgFile.name.lastIndexOf('.'))
      }else{
       imgName=req.body.image
      }
@@ -84,12 +83,9 @@ router.put("/homeiy/:id", (req, res) => {
     const body = req.body
     pool.query("SELECT * FROM homeiy where id=$1", [req.params.id], (err, result1) => {
         if (!err) {
-            if(result1.rows[0].image){
-                fs.unlink(`../media/${result1.rows[0].image}`,()=>{})   
-              }
               if(req.files){
                 const imgFile = req.files.image
-                 imgName = Date.now()+imgFile.name.slice(imgFile.name.lastIndexOf('.'))
+                 imgName =req.hostname+Date.now()+imgFile.name.slice(imgFile.name.lastIndexOf('.'))
             }else{
                 imgName=req.body.image
             }

@@ -19,7 +19,7 @@ create table users(
     UNIQUE(email),
     UNIQUE(phone),
     UNIQUE(inn),
-    "time_create" timestamp default current_timestamp not null,
+    "time_create" timestamp  default current_timestamp not null,
     "time_update" timestamp default current_timestamp not null
 );
 
@@ -69,7 +69,7 @@ create table aksiya(
         "time_create" timestamp default current_timestamp not null,
         "time_update" timestamp default current_timestamp not null  
     );
-    create table category(
+    create table category( 
         "id" serial primary key,
         "image" text,
         "title" VARCHAR(50) ,
@@ -170,12 +170,12 @@ create table sena(
 
 
 create table zakaz(
- "id" serial primary key,  
+     "id" serial primary key,
  "address" VARCHAR(100) not null,
  "day" date not null,
  "time" time not null,
  "category" VARCHAR(50) not null,
- "positsiya"  VARCHAR(50) not null,
+ "positsiya" VARCHAR(50) not null,
  "m3" integer not null,
  "description" text,
  "payment" VARCHAR(50) not null,
@@ -183,7 +183,10 @@ create table zakaz(
  "mashina" integer not null,
  "work_time_shving" VARCHAR(50) not null,
  "price" integer not null,
- "status" VARCHAR(50) default "Не выполнен" not null,
+ "status" VARCHAR(50) default 0 not null,
+ "shving" VARCHAR (50) not null,
+ "marka" integer not null,
+ "bonus" integer not null,
   "time_create" timestamp default current_timestamp not null,
-  "time_update" timestamp default current_timestamp not null   
+  "time_update" timestamp default current_timestamp not null
 )
