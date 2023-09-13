@@ -22,7 +22,18 @@ create table users(
     "time_create" timestamp  default current_timestamp not null,
     "time_update" timestamp default current_timestamp not null
 );
-
+create table work(
+    "id" serial primary key,
+    "type" VARCHAR(50) NOT NULL,
+    "organizatsiya" VARCHAR(100) not null,
+    "phone" VARCHAR(50) not null,
+    "email" VARCHAR(50) not null,
+    "inn" VARCHAR(50),
+    "mashina" VARCHAR(50),
+    "shving" VARCHAR(50),
+    "time_create" timestamp  default current_timestamp not null,
+    "time_update" timestamp default current_timestamp not null
+);
 create table aksiya(
         "id" serial primary key,
         "title" VARCHAR (50) NOT NULL,
