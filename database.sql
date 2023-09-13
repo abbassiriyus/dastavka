@@ -31,8 +31,8 @@ create table work(
     "inn" VARCHAR(50),
     "liso_contact" VARCHAR(50),
     "sayt" VARCHAR(50),
-    "mashina" VARCHAR(50),
-    "shving" VARCHAR(50),
+    "mashina" integer,
+    "shving" integer,
     "time_create" timestamp  default current_timestamp not null,
     "time_update" timestamp default current_timestamp not null
 );
