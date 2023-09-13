@@ -108,7 +108,6 @@ router.get('/oneuser', function(req, res) {
    var result1
    
    const bearerHeader=req.headers['authorization']
-   console.log(bearerHeader,"sas");
    const bearer=bearerHeader.split(" ")
    const bearerToken=bearer[1]
    req.token=bearerToken
