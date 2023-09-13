@@ -48,6 +48,7 @@ create table aksiya(
         "image" text,
         "title" VARCHAR(50),
         "link" text NOT NULL,
+        
         "time_create" timestamp default current_timestamp not null,
         "time_update" timestamp default current_timestamp not null
 
@@ -72,7 +73,7 @@ create table aksiya(
     create table category( 
         "id" serial primary key,
         "image" text,
-        "title" VARCHAR(50) ,
+        "title" VARCHAR(50),
         "description" text,
         "time_create" timestamp default current_timestamp not null,
         "time_update" timestamp default current_timestamp not null
@@ -103,7 +104,6 @@ create table filial(
  "time_create" timestamp default current_timestamp not null,
  "time_update" timestamp default current_timestamp not null     
 )
-
 create table marka(
         "id" serial primary key,
         "title" VARCHAR (50),
@@ -170,7 +170,7 @@ create table sena(
 
 
 create table zakaz(
-     "id" serial primary key,
+    "id" serial primary key,
  "address" VARCHAR(100) not null,
  "day" date not null,
  "time" time not null,
