@@ -5,9 +5,16 @@ var jwt = require('jsonwebtoken');
 const pool = require("../db")
 const fs=require('fs')
 
-router.get("/aksiya", (req, res) => {   
-    pool.query("SELECT * FROM aksiya", (err, result) => {
+router.get("/homiy_image", (req, res) => {   
+    pool.query("SELECT * FROM homiy_image", (err, result) => {
         if (!err) {
+        for (let i = 0; i < result.rows.length; i++) {
+        if(i%2==1){
+            result.rows[i].bol=true
+         }else{
+            result.rows[i].bol=false  
+         }
+         }
             res.status(200).send(result.rows)
         } else {
             res.send(err)
@@ -15,9 +22,9 @@ router.get("/aksiya", (req, res) => {
     })
 })  
 
-router.get('/aksiya/:id', (req, res) => {
+router.get('/homiy_image/:id', (req, res) => {
     
-    pool.query("SELECT * FROM aksiya where id=$1", [req.params.id], (err, result) => {
+    pool.query("SELECT * FROM homiy_image where id=$1", [req.params.id], (err, result) => {
         if (!err) {
             res.status(200).send(result.rows)
         } else {
@@ -27,7 +34,7 @@ router.get('/aksiya/:id', (req, res) => {
 })
 
 
-router.post("/aksiya", (req, res) => {
+router.post("/homiy_image", (req, res) => {
     const body = req.body;
     var imgName="";
     if(req.files){
@@ -36,8 +43,8 @@ router.post("/aksiya", (req, res) => {
      }else{
       imgName=req.body.image
      }
-    pool.query('INSERT INTO aksiya (title,image,description,start_day,end_day) VALUES ($1,$2,$3,$4,$5) RETURNING *',
-        [body.title,imgName,body.description,body.start_day,body.end_day],
+    pool.query('INSERT INTO homiy_image (image,title,deskription) VALUES ($1,$2,$3) RETURNING *',
+        [imgName,body.title,body.deskription],
          (err, result) => {
             if (err) {
                 res.status(400).send(err);
@@ -51,18 +58,18 @@ router.post("/aksiya", (req, res) => {
         });
 });
 
-router.delete("/aksiya/:id", (req, res) => {
+router.delete("/homiy_image/:id", (req, res) => {
     const id = req.params.id
-    pool.query("SELECT * FROM aksiya where id=$1", [req.params.id], (err, result1) => {
+    pool.query("SELECT * FROM homiy_image where id=$1", [req.params.id], (err, result1) => {
    
      if (!err && result1.rows.length>0) {
             if(result1.rows[0] && result1.rows[0].image){
               fs.unlink(`./media/${result1.rows[0].image}`,()=>{})   
             }
-            pool.query('DELETE FROM aksiya WHERE id = $1', [id], (err, result) => {
+            pool.query('DELETE FROM homiy_image WHERE id = $1', [id], (err, result) => {
                 if (err) {
                     res.status(400).send(
-                        {err:err,message:"aksiya id topilmadi "}
+                        {err:err,message:"homiy_image id topilmadi "}
                     )
                 } else {
                     res.status(200).send("Deleted")
@@ -74,23 +81,24 @@ router.delete("/aksiya/:id", (req, res) => {
     })
    
 })
-router.put("/aksiya/:id", (req, res) => {
+router.put("/homiy_image/:id", (req, res) => {
     const id = req.params.id
     const body = req.body
-    pool.query("SELECT * FROM aksiya where id=$1", [req.params.id], (err, result1) => {
+    pool.query("SELECT * FROM homiy_image where id=$1", [req.params.id], (err, result1) => {
         if (!err) {
-           
-         if(req.files){
+          
+              if(req.files){
                 const imgFile = req.files.image
                  imgName = result1.rows[0].image
             }else{
                 imgName=req.body.image
             }
-    pool.query(
-        'UPDATE aksiya SET title=$1,description=$2,image=$3,start_day=$4,end_day=$5,time_update=$7 WHERE id = $6',
-        [body.title,body.description,imgName,body.start_day,body.end_day,id,new Date()],
-        (err, result) => {
+     pool.query(
+        'UPDATE homiy_image SET title=$1,image=$2,time_update=$4 WHERE id = $5',
+         [body.title,imgName,new Date(),id],
+          (err, result) => {
             if (err) {
+
                 res.status(400).send(err)
             } else {
                 if(req.files){
@@ -106,5 +114,6 @@ router.put("/aksiya/:id", (req, res) => {
 }
     })
 })
+
 
 module.exports = router;

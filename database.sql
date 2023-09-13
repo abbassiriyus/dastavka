@@ -61,11 +61,20 @@ create table aksiya(
         "image" text,
         "title" VARCHAR(50),
         "link" text NOT NULL,
-        
+        "gis_mark" integer default 5,
+        "betomtaxi_mark" integer default 5,
+        "description" text ,
         "time_create" timestamp default current_timestamp not null,
         "time_update" timestamp default current_timestamp not null
 
     );
+    create table homiy_image(
+        "id" serial primary key,
+        "image" text,
+        "homeiy_id" integer not null,
+        "time_create" timestamp default current_timestamp not null,
+        "time_update" timestamp default current_timestamp not null
+    )
     create table skachat_pridlachenu(
         "id" serial primary key,
         "image" text,

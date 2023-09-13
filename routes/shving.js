@@ -80,12 +80,10 @@ router.put("/shving/:id", (req, res) => {
 
     pool.query("SELECT * FROM shving where id=$1", [req.params.id], (err, result1) => {
         if (!err) {
-            if(result1.rows[0].image){
-                fs.unlink(`./media/${result1.rows[0].image}`,()=>{})   
-              }
+           
               if(req.files){
                 const imgFile = req.files.image
-                 imgName = req.hostname+Date.now()+imgFile.name.slice(imgFile.name.lastIndexOf('.'))
+                 imgName = result1.rows[0].image
             }else{
                 imgName=req.body.image
             }

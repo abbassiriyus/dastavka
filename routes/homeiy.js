@@ -85,7 +85,7 @@ router.put("/homeiy/:id", (req, res) => {
         if (!err) {
               if(req.files){
                 const imgFile = req.files.image
-                 imgName =req.hostname+Date.now()+imgFile.name.slice(imgFile.name.lastIndexOf('.'))
+                 imgName =result1.rows[0].image
             }else{
                 imgName=req.body.image
             }
