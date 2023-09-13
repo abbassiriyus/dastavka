@@ -232,7 +232,9 @@
     <a href="https://dastafka-back.onrender.com/api/sena">api/sena</a>
 <span>mashina zakaz qilinsa qoshimcha narxla uchun</span>
 <pre>
-  demo
+    "usluga" integer not null,
+    "suv_bilan" integer not null,
+    "pustoy_smena" integer not null,
 </pre>
 <p>method: GET,GET(id),POST,DELETE(id),PUT(id)</p>
 </div>
@@ -249,5 +251,28 @@
 <p>method: GET,GET(id),POST,DELETE(id),PUT(id)</p>
 </div>
 <hr>
+<div class="api">
+    <a href="https://dastafka-back.onrender.com/api/zakaz">api/zakaz</a>
+<span>zakaz qilish uchun</span>
+<pre>
+    "address" VARCHAR(100) not null,
+    "day" date not null,
+    "time" time not null,
+    "category" VARCHAR(50) not null,
+    "positsiya" VARCHAR(50) not null,
+    "m3" integer not null,
+    "description" text,
+    "payment" VARCHAR(50) not null,
+    "tarif" VARCHAR(50) not null,
+    "mashina" integer not null,
+    "work_time_shving" VARCHAR(50) not null,
+    "price" integer not null,
+    "status" VARCHAR(50) default 0 not null,
+    "shving" VARCHAR (50) not null,
+    "marka" integer not null,
+    "bonus" integer not null,
+</pre>
+<p>method: GET,GET(id),POST,DELETE(id),PUT(id)</p>
+</div>
 </body>
 </html>

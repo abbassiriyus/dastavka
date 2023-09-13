@@ -8,6 +8,13 @@ const fs=require('fs')
 router.get("/skachat_pridlachenu", (req, res) => {   
     pool.query("SELECT * FROM skachat_pridlachenu", (err, result) => {
         if (!err) {
+        for (let i = 0; i < result.rows.length; i++) {
+        if(i%2==1){
+            result.rows[i].bol=true
+         }else{
+            result.rows[i].bol=false  
+         }
+         }
             res.status(200).send(result.rows)
         } else {
             res.send(err)
