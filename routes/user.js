@@ -105,8 +105,6 @@ router.post('/login', function(req, res) {
 // one token user
 router.get('/oneuser', function(req, res) {
    var body=req.body
-   var result1
-   
    const bearerHeader=req.headers['authorization']
    const bearer=bearerHeader.split(" ")
    const bearerToken=bearer[1]
@@ -201,6 +199,23 @@ router.put("/users/:id", (req, res) => {
 })
 
 
+// put user
+router.put("/users/header/:id", (req, res) => {
+    const id = req.params.id
+    const body = req.body
+    pool.query(
+        'UPDATE users SET surname=$1,username=$2,phone=$3,email=$4,time_update=$6 WHERE id = $5',
+        [body.surname,body.username,body.phone,body.email,id,new Date()],
+        (err, result) => {
+            if (err) {
+                res.status(400).send(err)
+            } else {
+                res.status(200).send("Updated")
+            }
+        }
+    )
+   
+})
 
 
 module.exports = router;

@@ -29,6 +29,8 @@ create table work(
     "phone" VARCHAR(50) not null,
     "email" VARCHAR(50) not null,
     "inn" VARCHAR(50),
+    "liso_contact" VARCHAR(50),
+    "sayt" VARCHAR(50),
     "mashina" VARCHAR(50),
     "shving" VARCHAR(50),
     "time_create" timestamp  default current_timestamp not null,
@@ -43,7 +45,7 @@ create table aksiya(
         "end_day" date,
         "time_create" timestamp default current_timestamp not null,
         "time_update" timestamp default current_timestamp not null
-    );
+);
     create table news(
         "id" serial primary key,
         "title" VARCHAR (50),
