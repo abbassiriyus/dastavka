@@ -49,8 +49,8 @@ router.post("/homeiy", (req, res) => {
      }else{
       imgName=req.body.image
      }
-    pool.query('INSERT INTO homeiy (image,link,title,gis_mark,betomtaxi_mark) VALUES ($1,$2,$3,$4,$5) RETURNING *',
-        [imgName,body.link,body.title,body.gis_mark,body.betomtaxi_mark,body.description],
+    pool.query('INSERT INTO homeiy (image,link,title,gis_mark,betomtaxi_mark,email,phone) VALUES ($1,$2,$3,$4,$5,$6,$7,$8) RETURNING *',
+        [imgName,body.link,body.title,body.gis_mark,body.betomtaxi_mark,body.description,body.email,body.phone],
          (err, result) => {
             if (err) {
                 res.status(400).send(err);
@@ -104,8 +104,8 @@ router.put("/homeiy/:id", (req, res) => {
                 imgName=req.body.image
             }
      pool.query(
-        'UPDATE homeiy SET title=$1,image=$2,link=$3,gis_mark=$4,betomtaxi_mark=$5,description=$6,time_update=$7 WHERE id = $8',
-         [body.title,imgName,body.link,body.gis_mark,body.betomtaxi_mark,body.description,new Date(),id],
+        'UPDATE homeiy SET title=$1,image=$2,link=$3,gis_mark=$4,betomtaxi_mark=$5,description=$6,email=$7,phone=$8,time_update=$9 WHERE id = $10',
+         [body.title,imgName,body.link,body.gis_mark,body.betomtaxi_mark,body.description,body.email,body.phone,new Date(),id],
           (err, result) => {
             if (err) {
 

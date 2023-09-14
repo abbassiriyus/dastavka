@@ -64,6 +64,8 @@ create table aksiya(
         "gis_mark" integer default 5,
         "betomtaxi_mark" integer default 5,
         "description" text,
+        "email" VARCHAR(50),
+        "phone" VARCHAR(50)
         "time_create" timestamp default current_timestamp not null,
         "time_update" timestamp default current_timestamp not null
 
@@ -86,7 +88,7 @@ create table aksiya(
     create table preferences (
         "id" serial primary key,
         "image" text,
-        "title" VARCHAR (50) ,
+        "title" VARCHAR (50),
         "description" text,
         "liso" VARCHAR  (1),
         "time_create" timestamp default current_timestamp not null,
