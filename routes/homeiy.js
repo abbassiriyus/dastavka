@@ -8,7 +8,21 @@ var fs=require('fs')
 router.get("/homeiy", (req, res) => {   
     pool.query("SELECT * FROM homeiy", (err, result) => {
         if (!err) {
-            res.status(200).send(result.rows)
+            pool.query("SELECT * FROM homiy_image", (err, result1) => {
+                if (!err) {
+              for (let i = 0; i < result.rows.length; i++) {
+                result.rows[i].imageall=[]
+                for (let j = 0; j < result1.rows.length; j++) {
+          if(result.rows[i].id==result1.rows[j].homeiy_id){
+            result.rows[i].imageall.push(result1.rows[j])
+          }
+                }   
+              }
+                    res.status(200).send(result.rows)
+                } else {
+                    res.status(400).send(err)
+                }
+            })
         } else {
             res.send(err)
         }
@@ -35,8 +49,8 @@ router.post("/homeiy", (req, res) => {
      }else{
       imgName=req.body.image
      }
-    pool.query('INSERT INTO homeiy (image,link,title) VALUES ($1,$2,$3) RETURNING *',
-        [imgName,body.link,body.title],
+    pool.query('INSERT INTO homeiy (image,link,title,gis_mark,betomtaxi_mark) VALUES ($1,$2,$3,$4,$5) RETURNING *',
+        [imgName,body.link,body.title,body.gis_mark,body.betomtaxi_mark,body.description],
          (err, result) => {
             if (err) {
                 res.status(400).send(err);
@@ -90,8 +104,8 @@ router.put("/homeiy/:id", (req, res) => {
                 imgName=req.body.image
             }
      pool.query(
-        'UPDATE homeiy SET title=$1,image=$2,link=$3,time_update=$4 WHERE id = $5',
-         [body.title,imgName,body.link,new Date(),id],
+        'UPDATE homeiy SET title=$1,image=$2,link=$3,gis_mark=$4,betomtaxi_mark=$5,description=$6,time_update=$7 WHERE id = $8',
+         [body.title,imgName,body.link,body.gis_mark,body.betomtaxi_mark,body.description,new Date(),id],
           (err, result) => {
             if (err) {
 

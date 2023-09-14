@@ -8,13 +8,6 @@ const fs=require('fs')
 router.get("/homiy_image", (req, res) => {   
     pool.query("SELECT * FROM homiy_image", (err, result) => {
         if (!err) {
-        for (let i = 0; i < result.rows.length; i++) {
-        if(i%2==1){
-            result.rows[i].bol=true
-         }else{
-            result.rows[i].bol=false  
-         }
-         }
             res.status(200).send(result.rows)
         } else {
             res.send(err)
@@ -43,8 +36,8 @@ router.post("/homiy_image", (req, res) => {
      }else{
       imgName=req.body.image
      }
-    pool.query('INSERT INTO homiy_image (image,title,deskription) VALUES ($1,$2,$3) RETURNING *',
-        [imgName,body.title,body.deskription],
+    pool.query('INSERT INTO homiy_image (image,homeiy_id) VALUES ($1,$2) RETURNING *',
+        [imgName,body.homeiy_id],
          (err, result) => {
             if (err) {
                 res.status(400).send(err);
@@ -86,16 +79,15 @@ router.put("/homiy_image/:id", (req, res) => {
     const body = req.body
     pool.query("SELECT * FROM homiy_image where id=$1", [req.params.id], (err, result1) => {
         if (!err) {
-          
-              if(req.files){
+        if(req.files){
                 const imgFile = req.files.image
                  imgName = result1.rows[0].image
             }else{
                 imgName=req.body.image
             }
      pool.query(
-        'UPDATE homiy_image SET title=$1,image=$2,time_update=$4 WHERE id = $5',
-         [body.title,imgName,new Date(),id],
+        'UPDATE homiy_image SET homeiy_id=$1,image=$2,time_update=$3 WHERE id = $4',
+         [body.homeiy_id,imgName,new Date(),id],
           (err, result) => {
             if (err) {
 

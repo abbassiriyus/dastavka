@@ -63,7 +63,7 @@ create table aksiya(
         "link" text NOT NULL,
         "gis_mark" integer default 5,
         "betomtaxi_mark" integer default 5,
-        "description" text ,
+        "description" text,
         "time_create" timestamp default current_timestamp not null,
         "time_update" timestamp default current_timestamp not null
 
@@ -106,7 +106,7 @@ create table position (
     "time_create" timestamp default current_timestamp not null,
     "time_update" timestamp default current_timestamp not null   
     );
-    create table compony(
+create table compony(
         "id" serial primary key,
         "logo" text,
         "phone" VARCHAR (50),
@@ -132,14 +132,14 @@ create table marka(
         "time_create" timestamp default current_timestamp not null,
         "time_update" timestamp default current_timestamp not null
     );
-    create table sovuqlik(
+create table sovuqlik(
         "id" serial primary key,
         "sena" integer not null,
         "gradus" integer not null,
         "time_create" timestamp default current_timestamp not null,
         "time_update" timestamp default current_timestamp not null
     );
-    create table product(
+create table product(
         "id" serial primary key,
         "description" text,
         "s3_sena" integer NOT NULL,
