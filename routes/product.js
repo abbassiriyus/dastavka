@@ -8,8 +8,37 @@ const pool = require("../db")
 router.get("/product", (req, res) => {   
     pool.query("SELECT * FROM product", (err, result) => {
         if (!err) {
-
-            res.status(200).send(result.rows)
+            pool.query("SELECT * FROM marka", (err, result1) => {
+                if (!err) {
+        
+                    pool.query("SELECT * FROM homeiy", (err, result2) => {
+                        if (!err) {
+                
+for (let i = 0; i < result.rows.length; i++) {
+    result.rows[i].allmarka={}
+  for (let j = 0; j < result1.rows.length; j++) {
+if(result.rows[i].marka==result1.rows[j].id){
+    result.rows[i].allmarka=result1.rows[j]
+} }}
+for (let i = 0; i < result.rows.length; i++) {
+    result.rows[i].allhomeiy={}
+    for (let j = 0; j < result2.rows.length; j++) {
+        if(result.rows[i].homiy_id==result2.rows[j].id){
+            result.rows[i].allhomeiy=result2.rows[j]
+        }
+    }
+  }
+                            res.status(200).send(result.rows)
+                
+                        } else {
+                            res.send(err)
+                        }
+                    })
+        
+                } else {
+                    res.send(err)
+                }
+            })
 
         } else {
             res.send(err)

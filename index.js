@@ -64,14 +64,6 @@ app.use('/api',zakaz)
 app.use('/api',work)
 
 
-
-
-
-
-
-
-
-
 app.listen(5000, () => {
     console.log("Localhost is Running");
 })
