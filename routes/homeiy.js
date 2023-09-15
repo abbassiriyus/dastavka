@@ -108,7 +108,6 @@ router.put("/homeiy/:id", (req, res) => {
          [body.title,imgName,body.link,body.gis_mark,body.betomtaxi_mark,body.description,body.email,body.phone,new Date(),id],
           (err, result) => {
             if (err) {
-
                 res.status(400).send(err)
             } else {
                 if(req.files){

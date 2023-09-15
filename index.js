@@ -29,20 +29,9 @@ const shving=require('./routes/shving.js')
 const sena=require('./routes/sena.js')
 const filial=require('./routes/filial.js')
 const zakaz=require('./routes/zakaz.js')
-
-
-
-
-
-
-
-
-
-
+const work=require('./routes/work.js')
 
 const pool = require("./db")
-
-
 app.use(fileUpload())
 app.use(cors())
 app.use(express.static('./media'))
@@ -72,6 +61,8 @@ app.use('/api',shving)
 app.use('/api',sena)
 app.use('/api',filial)
 app.use('/api',zakaz)
+app.use('/api',work)
+
 
 
 
