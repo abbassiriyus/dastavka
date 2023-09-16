@@ -11,6 +11,8 @@ const aksiya=require('./routes/aksiya.js')
 const position=require('./routes/position.js')
 const compony=require('./routes/compony.js')
 const news=require('./routes/news.js')
+const homiy_image=require('./routes/homiy_image.js')
+
 
 
 
@@ -62,6 +64,8 @@ app.use('/api',sena)
 app.use('/api',filial)
 app.use('/api',zakaz)
 app.use('/api',work)
+app.use('/api',homiy_image)
+
 
 
 app.listen(5000, () => {
