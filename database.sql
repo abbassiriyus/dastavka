@@ -42,6 +42,7 @@ create table aksiya(
         "image" text,
         "description" text,
         "stazgrt_day" date,
+        "min_description" text,
         "end_day" date,
         "time_create" timestamp default current_timestamp not null,
         "time_update" timestamp default current_timestamp not null

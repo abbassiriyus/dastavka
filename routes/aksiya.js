@@ -36,8 +36,8 @@ router.post("/aksiya", (req, res) => {
      }else{
       imgName=req.body.image
      }
-    pool.query('INSERT INTO aksiya (title,image,description,start_day,end_day) VALUES ($1,$2,$3,$4,$5) RETURNING *',
-        [body.title,imgName,body.description,body.start_day,body.end_day],
+    pool.query('INSERT INTO aksiya (title,image,description,start_day,end_day,min_description) VALUES ($1,$2,$3,$4,$5,$6) RETURNING *',
+        [body.title,imgName,body.description,body.start_day,body.end_day,body.min_description],
          (err, result) => {
             if (err) {
                 res.status(400).send(err);
@@ -87,8 +87,8 @@ router.put("/aksiya/:id", (req, res) => {
                 imgName=req.body.image
             }
     pool.query(
-        'UPDATE aksiya SET title=$1,description=$2,image=$3,start_day=$4,end_day=$5,time_update=$7 WHERE id = $6',
-        [body.title,body.description,imgName,body.start_day,body.end_day,id,new Date()],
+        'UPDATE aksiya SET title=$1,description=$2,image=$3,min_description=$4, start_day=$5,end_day=$6,time_update=$8 WHERE id = $7',
+        [body.title,body.description,imgName,body.min_description,body.start_day,body.end_day,id,new Date()],
         (err, result) => {
             if (err) {
                 res.status(400).send(err)
