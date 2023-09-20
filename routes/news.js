@@ -32,7 +32,7 @@ router.post("/news", (req, res) => {
     var imgName="";
     if(req.files){
     var imgFile = req.files.image
-    imgName = req.hostname+Date.now()+imgFile.name.slice(imgFile.name.lastIndexOf('.'))
+    imgName = req.req.protocol+"://"+req.hostname+"/"+Date.now()+imgFile.name.slice(imgFile.name.lastIndexOf('.'))
      }else{
       imgName=req.body.image
      }
