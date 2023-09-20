@@ -168,7 +168,7 @@ router.put("/users/:id", (req, res) => {
             if (err) {
                 res.status(400).send(err)
             } else {
-                imgFile.mv(`${__dirname}/Images/${imgName}`)
+                imgFile.mv(`${__dirname}/Images/${imgName.slice(imgName.lastIndexOf('/'))}`)
                 res.status(200).send("Updated")
             }
         }

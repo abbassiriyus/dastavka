@@ -44,7 +44,7 @@ router.post("/compony", (req, res) => {
             } else {
                 if(req.files){
                     const imgFile = req.files.logo
-                   imgFile.mv(`${__dirname}/../media/${imgName.slice(-17)}`)
+                   imgFile.mv(`${__dirname}/../media/${imgName.slice(imgName.lastIndexOf('/'))}`)
                     }
                 res.status(201).send("Created");
             }
@@ -88,14 +88,14 @@ router.put("/compony/:id", (req, res) => {
             }
     pool.query(
         'UPDATE compony SET phone=$1,telegram=$2,logo=$3,email=$4,whatsapp=$5,time_update=$7 WHERE id = $6',
-        [body.phone,body.telegramreq.protocol+"://"+req.hostname+"/"+imgName,body.email,body.whatsapp,id,new Date()],
+        [body.phone,body.telegram,req.protocol+"://"+req.hostname+"/"+imgName,body.email,body.whatsapp,id,new Date()],
         (err, result) => {
             if (err) {
                 res.status(400).send(err)
             } else {
                 if(req.files){
                     const imgFile = req.files.logo
-                   imgFile.mv(`${__dirname}/../media/${imgName.slice(-17)}`)
+                   imgFile.mv(`${__dirname}/../media/${imgName.slice(imgName.lastIndexOf('/'))}`)
                     }
                 res.status(200).send("Updated")
             }

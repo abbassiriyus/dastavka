@@ -57,7 +57,7 @@ router.post("/homeiy", (req, res) => {
             } else {
                 if(req.files){
                    const imgFile = req.files.image
-                   imgFile.mv(`${__dirname}/../media/${imgName.slice(-17)}`)
+                   imgFile.mv(`${__dirname}/../media/${imgName.slice(imgName.lastIndexOf('/'))}`)
                     }
                 res.status(201).send("Created");
             }
@@ -70,7 +70,7 @@ router.delete("/homeiy/:id", (req, res) => {
      
      if (!err && result1.rows.length>0) {
             if(result1.rows[0] && result1.rows[0].image){
-              fs.unlink(`./media/${(result1.rows[0].image).slice(-17)}`,()=>{})   
+              fs.unlink(`./media/${(result1.rows[0].image).slice(imgName.lastIndexOf('/'))}`,()=>{})   
             }
             pool.query('DELETE FROM homeiy WHERE id = $1', [id], (err, result) => {
                 if (err) {
@@ -80,7 +80,7 @@ router.delete("/homeiy/:id", (req, res) => {
                 } else {
                     if(req.files){
                         const imgFile = req.files.image
-                       imgFile.mv(`${__dirname}/media/${imgName}`)
+                       imgFile.mv(`${__dirname}/media/${imgName.slice(imgName.lastIndexOf('/'))}`)
                      }
                     res.status(200).send("Deleted")
                 }
@@ -112,7 +112,7 @@ router.put("/homeiy/:id", (req, res) => {
             } else {
                 if(req.files){
                     const imgFile = req.files.image
-                   imgFile.mv(`${__dirname}/../media/${imgName.slice(-17)}`)
+                   imgFile.mv(`${__dirname}/../media/${imgName.slice(imgName.lastIndexOf('/'))}`)
                     }
                 res.status(200).send("Updated")
             }
