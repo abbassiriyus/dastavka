@@ -32,7 +32,7 @@ router.post("/tarif", (req, res) => {
     var imgName="";
     if(req.files){
     var imgFile = req.files.image
-    imgName = req.req.protocol+"://"+req.hostname+"/"+Date.now()+imgFile.name.slice(imgFile.name.lastIndexOf('.'))
+    imgName = Date.now()+imgFile.name.slice(imgFile.name.lastIndexOf('.'))
      }else{
       imgName=req.body.image
      }
@@ -57,7 +57,7 @@ router.delete("/tarif/:id", (req, res) => {
        
      if (!err && result1.rows.length>0) {
             if(result1.rows[0] && result1.rows[0].image){
-              fs.unlink(`./media/${result1.rows[0].image}`,()=>{})   
+              fs.unlink(`./media/${(result1.rows[0].image).slice(-17)}`,()=>{})   
             }
             pool.query('DELETE FROM tarif WHERE id = $1', [id], (err, result) => {
                 if (err) {
@@ -88,7 +88,7 @@ router.put("/tarif/:id", (req, res) => {
             }
      pool.query(
         'UPDATE tarif SET title=$1,image=$2,sena_out_city=$3,time_update=$4,sena_city=$6 WHERE id = $5',
-         [body.title,imgName,body.sena_out_city,new Date(),id,body.sena_city],
+         [body.titlereq.protocol+"://"+req.hostname+"/"+imgName,body.sena_out_city,new Date(),id,body.sena_city],
           (err, result) => {
             if (err) {
                 res.status(400).send(err)

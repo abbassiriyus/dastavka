@@ -32,7 +32,7 @@ router.post("/homiy_image", (req, res) => {
     var imgName="";
     if(req.files){
     var imgFile = req.files.image
-    imgName = req.req.protocol+"://"+req.hostname+"/"+Date.now()+imgFile.name.slice(imgFile.name.lastIndexOf('.'))
+    imgName = Date.now()+imgFile.name.slice(imgFile.name.lastIndexOf('.'))
      }else{
       imgName=req.body.image
      }
@@ -44,7 +44,7 @@ router.post("/homiy_image", (req, res) => {
             } else {
                 if(req.files){
                     const imgFile = req.files.image
-                   imgFile.mv(`${__dirname}/../media/${imgName}`)
+                   imgFile.mv(`${__dirname}/../media/${imgName.slice(-17)}`)
                     }
                 res.status(201).send("Created");
             }
@@ -57,7 +57,7 @@ router.delete("/homiy_image/:id", (req, res) => {
    
      if (!err && result1.rows.length>0) {
             if(result1.rows[0] && result1.rows[0].image){
-              fs.unlink(`./media/${result1.rows[0].image}`,()=>{})   
+              fs.unlink(`./media/${(result1.rows[0].image).slice(-17)}`,()=>{})   
             }
             pool.query('DELETE FROM homiy_image WHERE id = $1', [id], (err, result) => {
                 if (err) {
@@ -87,7 +87,7 @@ router.put("/homiy_image/:id", (req, res) => {
             }
      pool.query(
         'UPDATE homiy_image SET homeiy_id=$1,image=$2,time_update=$3 WHERE id = $4',
-         [body.homeiy_id,imgName,new Date(),id],
+         [body.homeiy_idreq.protocol+"://"+req.hostname+"/"+imgName,new Date(),id],
           (err, result) => {
             if (err) {
 
@@ -95,7 +95,7 @@ router.put("/homiy_image/:id", (req, res) => {
             } else {
                 if(req.files){
                     const imgFile = req.files.image
-                   imgFile.mv(`${__dirname}/../media/${imgName}`)
+                   imgFile.mv(`${__dirname}/../media/${imgName.slice(-17)}`)
                     }
                 res.status(200).send("Updated")
             }

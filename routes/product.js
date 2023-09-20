@@ -60,7 +60,6 @@ router.get('/product/:id', (req, res) => {
 
 router.post("/product", (req, res) => {
     const body = req.body;
-   
         pool.query('INSERT INTO product (description,s3_sena,s4_sena,marka,hydrophobic_additive_sena,fiber_fiber,homiy_id,category) VALUES ($1,$2,$3,$4,$5,$6,$7,$8) RETURNING *',
         [body.description,body.s3_sena,body.s4_sena,body.marka,body.hydrophobic_additive_sena,body.fiber_fiber,body.homiy_id,body.category],
          (err, result) => {

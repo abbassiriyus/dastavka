@@ -39,7 +39,7 @@ router.post("/skachat_pridlachenu", (req, res) => {
     var imgName="";
     if(req.files){
     var imgFile = req.files.image
-    imgName = req.req.protocol+"://"+req.hostname+"/"+Date.now()+imgFile.name.slice(imgFile.name.lastIndexOf('.'))
+    imgName = Date.now()+imgFile.name.slice(imgFile.name.lastIndexOf('.'))
      }else{
       imgName=req.body.image
      }
@@ -51,7 +51,7 @@ router.post("/skachat_pridlachenu", (req, res) => {
             } else {
                 if(req.files){
                     const imgFile = req.files.image
-                   imgFile.mv(`${__dirname}/../media/${imgName}`)
+                   imgFile.mv(`${__dirname}/../media/${imgName.slice(-17)}`)
                     }
                 res.status(201).send("Created");
             }
@@ -64,7 +64,7 @@ router.delete("/skachat_pridlachenu/:id", (req, res) => {
    
      if (!err && result1.rows.length>0) {
             if(result1.rows[0] && result1.rows[0].image){
-              fs.unlink(`./media/${result1.rows[0].image}`,()=>{})   
+              fs.unlink(`./media/${(result1.rows[0].image).slice(-17)}`,()=>{})   
             }
             pool.query('DELETE FROM skachat_pridlachenu WHERE id = $1', [id], (err, result) => {
                 if (err) {
@@ -95,7 +95,7 @@ router.put("/skachat_pridlachenu/:id", (req, res) => {
             }
      pool.query(
         'UPDATE skachat_pridlachenu SET title=$1,image=$2,deskription=$3,time_update=$4 WHERE id = $5',
-         [body.title,imgName,body.deskription,new Date(),id],
+         [body.titlereq.protocol+"://"+req.hostname+"/"+imgName,body.deskription,new Date(),id],
           (err, result) => {
             if (err) {
 
@@ -103,7 +103,7 @@ router.put("/skachat_pridlachenu/:id", (req, res) => {
             } else {
                 if(req.files){
                     const imgFile = req.files.image
-                   imgFile.mv(`${__dirname}/../media/${imgName}`)
+                   imgFile.mv(`${__dirname}/../media/${imgName.slice(-17)}`)
                     }
                 res.status(200).send("Updated")
             }

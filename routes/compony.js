@@ -32,19 +32,19 @@ router.post("/compony", (req, res) => {
     var imgName="";
     if(req.files){
     var imgFile = req.files.logo
-    imgName = req.req.protocol+"://"+req.hostname+"/"+Date.now()+imgFile.name.slice(imgFile.name.lastIndexOf('.'))
+    imgName = Date.now()+imgFile.name.slice(imgFile.name.lastIndexOf('.'))
      }else{
       imgName=req.body.logo
      }
     pool.query('INSERT INTO compony (phone,logo,telegram,email,whatsapp) VALUES ($1,$2,$3,$4,$5) RETURNING *',
-        [body.phone,imgName,body.telegram,body.email,body.whatsapp],
+        [body.phonereq.protocol+"://"+req.hostname+"/"+imgName,body.telegram,body.email,body.whatsapp],
          (err, result) => {
             if (err) {
                 res.status(400).send(err);
             } else {
                 if(req.files){
                     const imgFile = req.files.logo
-                   imgFile.mv(`${__dirname}/../media/${imgName}`)
+                   imgFile.mv(`${__dirname}/../media/${imgName.slice(-17)}`)
                     }
                 res.status(201).send("Created");
             }
@@ -82,20 +82,20 @@ router.put("/compony/:id", (req, res) => {
            
               if(req.files){
                 const imgFile = req.files.logo
-                 imgName =result1.rows[0].image
+                 imgName=result1.rows[0].logo
             }else{
                 imgName=req.body.logo
             }
     pool.query(
         'UPDATE compony SET phone=$1,telegram=$2,logo=$3,email=$4,whatsapp=$5,time_update=$7 WHERE id = $6',
-        [body.phone,body.telegram,imgName,body.email,body.whatsapp,id,new Date()],
+        [body.phone,body.telegramreq.protocol+"://"+req.hostname+"/"+imgName,body.email,body.whatsapp,id,new Date()],
         (err, result) => {
             if (err) {
                 res.status(400).send(err)
             } else {
                 if(req.files){
                     const imgFile = req.files.logo
-                   imgFile.mv(`${__dirname}/../media/${imgName}`)
+                   imgFile.mv(`${__dirname}/../media/${imgName.slice(-17)}`)
                     }
                 res.status(200).send("Updated")
             }

@@ -32,19 +32,19 @@ router.post("/news", (req, res) => {
     var imgName="";
     if(req.files){
     var imgFile = req.files.image
-    imgName = req.req.protocol+"://"+req.hostname+"/"+Date.now()+imgFile.name.slice(imgFile.name.lastIndexOf('.'))
+    imgName = Date.now()+imgFile.name.slice(imgFile.name.lastIndexOf('.'))
      }else{
       imgName=req.body.image
      }
     pool.query('INSERT INTO news (title,image,description,min_description) VALUES ($1,$2,$3,$4) RETURNING *',
-        [body.title,imgName,body.description,body.min_description],
+        [body.titlereq.protocol+"://"+req.hostname+"/"+imgName,body.description,body.min_description],
          (err, result) => {
             if (err) {
                 res.status(400).send(err);
             } else {
                 if(req.files){
                     const imgFile = req.files.image
-                   imgFile.mv(`${__dirname}/../media/${imgName}`)
+                   imgFile.mv(`${__dirname}/../media/${imgName.slice(-17)}`)
                     }
                 res.status(201).send("Created");
             }
@@ -57,7 +57,7 @@ router.delete("/news/:id", (req, res) => {
        
      if (!err && result1.rows.length>0) {
             if(result1.rows[0] && result1.rows[0].image){
-              fs.unlink(`./media/${result1.rows[0].image}`,()=>{})   
+              fs.unlink(`./media/${(result1.rows[0].image).slice(-17)}`,()=>{})   
             }
             pool.query('DELETE FROM news WHERE id = $1', [id], (err, result) => {
                 if (err) {
@@ -88,14 +88,14 @@ router.put("/news/:id", (req, res) => {
             }
     pool.query(
         'UPDATE news SET title=$1,description=$2,image=$3,min_description=$4,time_update=$6 WHERE id = $5',
-        [body.title,body.description,imgName,body.min_description,id,new Date() ],
+        [body.title,body.descriptionreq.protocol+"://"+req.hostname+"/"+imgName,body.min_description,id,new Date() ],
         (err, result) => {
             if (err) {
                 res.status(400).send(err)
             } else {
                 if(req.files){
                     const imgFile = req.files.image
-                   imgFile.mv(`${__dirname}/../media/${imgName}`)
+                   imgFile.mv(`${__dirname}/../media/${imgName.slice(-17)}`)
                     }
                 res.status(200).send("Updated")
             }
