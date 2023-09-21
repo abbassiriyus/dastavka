@@ -32,7 +32,7 @@ router.post("/aksiya", (req, res) => {
     var imgName="";
     if(req.files){
     var imgFile = req.files.image
-    imgName =Date.now()+imgFile.name.slice(imgFile.name.lastIndexOf('.'))
+    imgName=Date.now()+imgFile.name.slice(imgFile.name.lastIndexOf('.'))
      }else{
       imgName=req.body.image
      }
@@ -44,7 +44,7 @@ router.post("/aksiya", (req, res) => {
             } else {
                 if(req.files){
                     const imgFile = req.files.image
-                   imgFile.mv(`${__dirname}/../media/${imgName.slice(imgName.lastIndexOf('/'))}`)
+                   imgFile.mv(`${__dirname}/../media/${imgName}`)
                     }
                 res.status(201).send("Created");
             }
@@ -81,14 +81,13 @@ router.put("/aksiya/:id", (req, res) => {
         if (!err) {
            
          if(req.files){
-                const imgFile = req.files.image
                  imgName = result1.rows[0].image
             }else{
                 imgName=req.body.image
             }
     pool.query(
         'UPDATE aksiya SET title=$1,description=$2,image=$3,min_description=$4, start_day=$5,end_day=$6,time_update=$8 WHERE id = $7',
-        [body.title,body.description,req.protocol+"://"+req.hostname+"/"+imgName,body.min_description,body.start_day,body.end_day,id,new Date()],
+        [body.title,body.description,imgName,body.min_description,body.start_day,body.end_day,id,new Date()],
         (err, result) => {
             if (err) {
                 res.status(400).send(err)

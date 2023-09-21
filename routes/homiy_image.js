@@ -37,14 +37,14 @@ router.post("/homiy_image", (req, res) => {
       imgName=req.body.image
      }
     pool.query('INSERT INTO homiy_image (image,homeiy_id) VALUES ($1,$2) RETURNING *',
-        [imgName,body.homeiy_id],
+        [req.protocol+"://"+req.hostname+"/"+imgName,body.homeiy_id],
          (err, result) => {
             if (err) {
                 res.status(400).send(err);
             } else {
                 if(req.files){
                     const imgFile = req.files.image
-                   imgFile.mv(`${__dirname}/../media/${imgName.slice(imgName.lastIndexOf('/'))}`)
+                   imgFile.mv(`${__dirname}/../media/${imgName}`)
                     }
                 res.status(201).send("Created");
             }
@@ -80,14 +80,13 @@ router.put("/homiy_image/:id", (req, res) => {
     pool.query("SELECT * FROM homiy_image where id=$1", [req.params.id], (err, result1) => {
         if (!err) {
         if(req.files){
-                const imgFile = req.files.image
                  imgName = result1.rows[0].image
             }else{
                 imgName=req.body.image
             }
      pool.query(
         'UPDATE homiy_image SET homeiy_id=$1,image=$2,time_update=$3 WHERE id = $4',
-         [body.homeiy_id,req.protocol+"://"+req.hostname+"/"+imgName,new Date(),id],
+         [body.homeiy_id,imgName,new Date(),id],
           (err, result) => {
             if (err) {
 

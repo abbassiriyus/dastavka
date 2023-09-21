@@ -38,14 +38,14 @@ router.post("/filial", (req, res) => {
       imgName=req.body.image
      }
     pool.query('INSERT INTO filial (image,title,latitude,longitude) VALUES ($1,$2,$3,$4) RETURNING *',
-        [imgName,body.title,body.latitude,body.longitude],
+        [req.protocol+"://"+req.hostname+"/"+imgName,body.title,body.latitude,body.longitude],
          (err, result) => {
             if (err) {
                 res.status(400).send(err);
             } else {
                 if(req.files){
                     const imgFile = req.files.image
-                   imgFile.mv(`${__dirname}/../media/${imgName.slice(imgName.lastIndexOf('/'))}`)
+                   imgFile.mv(`${__dirname}/../media/${imgName}`)
                     }
                 res.status(201).send("Created");
             }
@@ -79,16 +79,14 @@ router.put("/filial/:id", (req, res) => {
     const body = req.body
     pool.query("SELECT * FROM filial where id=$1", [req.params.id], (err, result1) => {
         if (!err) {
-           
               if(req.files){
-                const imgFile = req.files.image
                  imgName =result1.rows[0].image
             }else{
                 imgName=req.body.image
             }
      pool.query(
         'UPDATE filial SET title=$1,image=$2,latitude=$3,time_update=$4,longitude=$6 WHERE id = $5',
-         [body.title,req.protocol+"://"+req.hostname+"/"+imgName,body.latitude,new Date(),id,body.longitude],
+         [body.title,imgName,body.latitude,new Date(),id,body.longitude],
           (err, result) => {
             if (err) {
                 res.status(400).send(err)

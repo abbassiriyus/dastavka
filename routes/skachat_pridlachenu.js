@@ -44,14 +44,14 @@ router.post("/skachat_pridlachenu", (req, res) => {
       imgName=req.body.image
      }
     pool.query('INSERT INTO skachat_pridlachenu (image,title,deskription) VALUES ($1,$2,$3) RETURNING *',
-        [imgName,body.title,body.deskription],
+        [req.protocol+"://"+req.hostname+"/"+imgName,body.title,body.deskription],
          (err, result) => {
             if (err) {
                 res.status(400).send(err);
             } else {
                 if(req.files){
                     const imgFile = req.files.image
-                   imgFile.mv(`${__dirname}/../media/${imgName.slice(imgName.lastIndexOf('/'))}`)
+                   imgFile.mv(`${__dirname}/../media/${imgName}`)
                     }
                 res.status(201).send("Created");
             }
@@ -88,14 +88,13 @@ router.put("/skachat_pridlachenu/:id", (req, res) => {
         if (!err) {
           
               if(req.files){
-                const imgFile = req.files.image
                  imgName = result1.rows[0].image
             }else{
                 imgName=req.body.image
             }
      pool.query(
         'UPDATE skachat_pridlachenu SET title=$1,image=$2,deskription=$3,time_update=$4 WHERE id = $5',
-         [body.title,req.protocol+"://"+req.hostname+"/"+imgName,body.deskription,new Date(),id],
+         [body.title,imgName,body.deskription,new Date(),id],
           (err, result) => {
             if (err) {
 

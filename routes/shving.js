@@ -37,14 +37,14 @@ router.post("/shving", (req, res) => {
       imgName=req.body.image
      }
     pool.query('INSERT INTO shving (image,m,sena,description) VALUES ($1,$2,$3,$4) RETURNING *',
-        [imgName,body.m,body.sena,body.description],
+        [req.protocol+"://"+req.hostname+"/"+imgName,body.m,body.sena,body.description],
          (err, result) => {
             if (err) {
                 res.status(400).send(err);
             } else {
                 if(req.files){
                     const imgFile = req.files.image
-                   imgFile.mv(`${__dirname}/../media/${imgName.slice(imgName.lastIndexOf('/'))}`)
+                   imgFile.mv(`${__dirname}/../media/${imgName}`)
                     }
                 res.status(201).send("Created");
             }
@@ -82,14 +82,13 @@ router.put("/shving/:id", (req, res) => {
         if (!err) {
            
               if(req.files){
-                const imgFile = req.files.image
                  imgName = result1.rows[0].image
             }else{
                 imgName=req.body.image
             }
      pool.query(
         'UPDATE shving SET m=$1,image=$2,sena=$3,time_update=$4,description=$6 WHERE id = $5',
-         [body.m,req.protocol+"://"+req.hostname+"/"+imgName,body.sena,new Date(),id,body.description],
+         [body.m,imgName,body.sena,new Date(),id,body.description],
           (err, result) => {
             if (err) {
                 res.status(400).send(err)

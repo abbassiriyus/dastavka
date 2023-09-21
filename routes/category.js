@@ -107,16 +107,14 @@ router.put("/category/:id", (req, res) => {
     const body = req.body
     pool.query("SELECT * FROM category where id=$1", [req.params.id], (err, result1) => {
         if (!err) {
-         
-              if(req.files){
-                const imgFile = req.files.image
+              if(req.files && req.files.image){
                  imgName =result1.rows[0].image
             }else{
                 imgName=req.body.image
             }
      pool.query(
         'UPDATE category SET title=$1,image=$2,description=$3,time_update=$4 WHERE id = $5',
-         [body.title,req.protocol+"://"+req.hostname+"/"+imgName,body.description,new Date(),id],
+         [body.title,imgName,body.description,new Date(),id],
           (err, result) => {
             if (err) {
 

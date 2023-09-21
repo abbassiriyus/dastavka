@@ -44,7 +44,7 @@ router.post("/preferences", (req, res) => {
             } else {
                 if(req.files){
                     const imgFile = req.files.image
-                   imgFile.mv(`${__dirname}/../media/${imgName.slice(imgName.lastIndexOf('/'))}`)
+                   imgFile.mv(`${__dirname}/../media/${imgName}`)
                     }
                 res.status(201).send("Created");
             }
@@ -79,20 +79,22 @@ router.put("/preferences/:id", (req, res) => {
     const body = req.body
     pool.query("SELECT * FROM preferences where id=$1", [req.params.id], (err, result1) => {
         if (!err) {  
-           
-              if(req.files){
-                const imgFile = req.files.image
+            if(req.files){
                  imgName = result1.rows[0].image
             }else{
                 imgName=req.body.image
             }
     pool.query(
         'UPDATE preferences SET title=$1,description=$2,image=$3,liso=$4,time_update=$6 WHERE id = $5',
-        [body.title,body.descriptionreq.protocol+"://"+req.hostname+"/"+imgName,body.liso,id,new Date() ],
+        [body.title,body.description,imgName,body.liso,id,new Date() ],
         (err, result) => {
             if (err) {
                 res.status(400).send(err)
             } else {
+                if(req.files){
+                    const imgFile = req.files.image
+                   imgFile.mv(`${__dirname}/../media/${imgName.slice(imgName.lastIndexOf('/'))}`)
+                    }
                 res.status(200).send("Updated")
             }
         }

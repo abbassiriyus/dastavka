@@ -79,20 +79,22 @@ router.put("/tarif/:id", (req, res) => {
     const body = req.body
     pool.query("SELECT * FROM tarif where id=$1", [req.params.id], (err, result1) => {
         if (!err) {
-           
               if(req.files){
-                const imgFile = req.files.image
                  imgName = result1.rows[0].image
             }else{
                 imgName=req.body.image
             }
      pool.query(
         'UPDATE tarif SET title=$1,image=$2,sena_out_city=$3,time_update=$4,sena_city=$6 WHERE id = $5',
-         [body.title,req.protocol+"://"+req.hostname+"/"+imgName,body.sena_out_city,new Date(),id,body.sena_city],
+         [body.title,imgName,body.sena_out_city,new Date(),id,body.sena_city],
           (err, result) => {
             if (err) {
                 res.status(400).send(err)
             } else {
+                if(req.files){
+                    const imgFile = req.files.image
+                   imgFile.mv(`${__dirname}/../media/${imgName.slice(imgName.lastIndexOf('/'))}`)
+                    }
                 res.status(200).send("Updated")
             }
         }

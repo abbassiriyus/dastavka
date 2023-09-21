@@ -44,7 +44,7 @@ router.post("/news", (req, res) => {
             } else {
                 if(req.files){
                     const imgFile = req.files.image
-                   imgFile.mv(`${__dirname}/../media/${imgName.slice(imgName.lastIndexOf('/'))}`)
+                   imgFile.mv(`${__dirname}/../media/${imgName}`)
                     }
                 res.status(201).send("Created");
             }
@@ -81,14 +81,14 @@ router.put("/news/:id", (req, res) => {
         if (!err) {
           
               if(req.files){
-                const imgFile = req.files.image
+               
                  imgName = result1.rows[0].image
             }else{
                 imgName=req.body.image
             }
     pool.query(
         'UPDATE news SET title=$1,description=$2,image=$3,min_description=$4,time_update=$6 WHERE id = $5',
-        [body.title,body.description,req.protocol+"://"+req.hostname+"/"+imgName,body.min_description,id,new Date() ],
+        [body.title,body.description,imgName,body.min_description,id,new Date() ],
         (err, result) => {
             if (err) {
                 res.status(400).send(err)
