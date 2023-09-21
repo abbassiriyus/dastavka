@@ -88,7 +88,7 @@ router.put("/filial/:id", (req, res) => {
             }
      pool.query(
         'UPDATE filial SET title=$1,image=$2,latitude=$3,time_update=$4,longitude=$6 WHERE id = $5',
-         [body.titlereq.protocol+"://"+req.hostname+"/"+imgName,body.latitude,new Date(),id,body.longitude],
+         [body.title,req.protocol+"://"+req.hostname+"/"+imgName,body.latitude,new Date(),id,body.longitude],
           (err, result) => {
             if (err) {
                 res.status(400).send(err)

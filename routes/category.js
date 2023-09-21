@@ -73,7 +73,7 @@ router.post("/category", (req, res) => {
             } else {
                 if(req.files){
                     const imgFile = req.files.image
-                   imgFile.mv(`${__dirname}/../media/${imgName.slice(imgName.lastIndexOf('/'))}`)
+                   imgFile.mv(`${__dirname}/../media/${imgName}`)
                     }
                 res.status(201).send("Created");
             }
@@ -116,7 +116,7 @@ router.put("/category/:id", (req, res) => {
             }
      pool.query(
         'UPDATE category SET title=$1,image=$2,description=$3,time_update=$4 WHERE id = $5',
-         [body.titlereq.protocol+"://"+req.hostname+"/"+imgName,body.description,new Date(),id],
+         [body.title,req.protocol+"://"+req.hostname+"/"+imgName,body.description,new Date(),id],
           (err, result) => {
             if (err) {
 

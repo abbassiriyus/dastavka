@@ -87,7 +87,7 @@ router.put("/homiy_image/:id", (req, res) => {
             }
      pool.query(
         'UPDATE homiy_image SET homeiy_id=$1,image=$2,time_update=$3 WHERE id = $4',
-         [body.homeiy_idreq.protocol+"://"+req.hostname+"/"+imgName,new Date(),id],
+         [body.homeiy_id,req.protocol+"://"+req.hostname+"/"+imgName,new Date(),id],
           (err, result) => {
             if (err) {
 

@@ -88,7 +88,7 @@ router.put("/mashina/:id", (req, res) => {
             }
      pool.query(
         'UPDATE mashina SET m3=$1,image=$2,sena=$3,time_update=$4,description=$6 WHERE id = $5',
-         [body.m3req.protocol+"://"+req.hostname+"/"+imgName,body.sena,new Date(),id,body.description],
+         [body.m3,req.protocol+"://"+req.hostname+"/"+imgName,body.sena,new Date(),id,body.description],
           (err, result) => {
             if (err) {
                 res.status(400).send(err)

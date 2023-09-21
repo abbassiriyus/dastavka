@@ -88,7 +88,7 @@ router.put("/aksiya/:id", (req, res) => {
             }
     pool.query(
         'UPDATE aksiya SET title=$1,description=$2,image=$3,min_description=$4, start_day=$5,end_day=$6,time_update=$8 WHERE id = $7',
-        [body.title,body.descriptionreq.protocol+"://"+req.hostname+"/"+imgName,body.min_description,body.start_day,body.end_day,id,new Date()],
+        [body.title,body.description,req.protocol+"://"+req.hostname+"/"+imgName,body.min_description,body.start_day,body.end_day,id,new Date()],
         (err, result) => {
             if (err) {
                 res.status(400).send(err)

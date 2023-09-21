@@ -105,7 +105,7 @@ router.put("/homeiy/:id", (req, res) => {
             }
      pool.query(
         'UPDATE homeiy SET title=$1,image=$2,link=$3,gis_mark=$4,betomtaxi_mark=$5,description=$6,email=$7,phone=$8,time_update=$9 WHERE id = $10',
-         [body.titlereq.protocol+"://"+req.hostname+"/"+imgName,body.link,body.gis_mark,body.betomtaxi_mark,body.description,body.email,body.phone,new Date(),id],
+         [body.title,req.protocol+"://"+req.hostname+"/"+imgName,body.link,body.gis_mark,body.betomtaxi_mark,body.description,body.email,body.phone,new Date(),id],
           (err, result) => {
             if (err) {
                 res.status(400).send(err)

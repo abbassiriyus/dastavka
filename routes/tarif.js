@@ -88,7 +88,7 @@ router.put("/tarif/:id", (req, res) => {
             }
      pool.query(
         'UPDATE tarif SET title=$1,image=$2,sena_out_city=$3,time_update=$4,sena_city=$6 WHERE id = $5',
-         [body.titlereq.protocol+"://"+req.hostname+"/"+imgName,body.sena_out_city,new Date(),id,body.sena_city],
+         [body.title,req.protocol+"://"+req.hostname+"/"+imgName,body.sena_out_city,new Date(),id,body.sena_city],
           (err, result) => {
             if (err) {
                 res.status(400).send(err)

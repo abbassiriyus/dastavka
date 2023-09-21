@@ -95,7 +95,7 @@ router.put("/skachat_pridlachenu/:id", (req, res) => {
             }
      pool.query(
         'UPDATE skachat_pridlachenu SET title=$1,image=$2,deskription=$3,time_update=$4 WHERE id = $5',
-         [body.titlereq.protocol+"://"+req.hostname+"/"+imgName,body.deskription,new Date(),id],
+         [body.title,req.protocol+"://"+req.hostname+"/"+imgName,body.deskription,new Date(),id],
           (err, result) => {
             if (err) {
 

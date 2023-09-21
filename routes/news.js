@@ -88,7 +88,7 @@ router.put("/news/:id", (req, res) => {
             }
     pool.query(
         'UPDATE news SET title=$1,description=$2,image=$3,min_description=$4,time_update=$6 WHERE id = $5',
-        [body.title,body.descriptionreq.protocol+"://"+req.hostname+"/"+imgName,body.min_description,id,new Date() ],
+        [body.title,body.description,req.protocol+"://"+req.hostname+"/"+imgName,body.min_description,id,new Date() ],
         (err, result) => {
             if (err) {
                 res.status(400).send(err)
