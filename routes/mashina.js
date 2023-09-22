@@ -57,7 +57,7 @@ router.delete("/mashina/:id", (req, res) => {
   
      if (!err && result1.rows.length>0) {
             if(result1.rows[0] && result1.rows[0].image){
-              fs.unlink(`./media/${(result1.rows[0].image).slice(imgName.lastIndexOf('/'))}`,()=>{})   
+                fs.unlink(`${__dirname}/../media/${(result1.rows[0].image).slice(result1.rows[0].image.lastIndexOf('/')+1)}`,()=>{})   
             }
             pool.query('DELETE FROM mashina WHERE id = $1', [id], (err, result) => {
                 if (err) {

@@ -85,7 +85,7 @@ router.delete("/category/:id", (req, res) => {
     pool.query("SELECT * FROM category where id=$1", [req.params.id], (err, result1) => {
      if (!err && result1.rows.length>0) {
             if(result1.rows[0] && result1.rows[0].image){
-              fs.unlink(`../media/${(result1.rows[0].image).slice(imgName.lastIndexOf('/'))}`,()=>{})   
+              fs.unlink(`${__dirname}/../media/${(result1.rows[0].image).slice(result1.rows[0].image.lastIndexOf('/')+1)}`,()=>{})   
             }
             pool.query('DELETE FROM category WHERE id = $1', [id], (err, result) => {
                 if (err) {

@@ -57,7 +57,7 @@ router.delete("/compony/:id", (req, res) => {
   
      if (!err && result1.rows.length>0) {
             if(result1.rows[0] && result1.rows[0].logo){
-              fs.unlink(`./media/${result1.rows[0].logo}`,()=>{})   
+                fs.unlink(`${__dirname}/../media/${(result1.rows[0].logo).slice(result1.rows[0].logo.lastIndexOf('/')+1)}`,()=>{}) 
             }
             pool.query('DELETE FROM compony WHERE id = $1', [id], (err, result) => {
                 if (err) {
