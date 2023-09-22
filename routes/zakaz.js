@@ -12,16 +12,17 @@ router.get("/zakaz", (req, res) => {
                 if (!err) {
       for (let i = 0; i < result.rows.length; i++) {
     for (let j = 0; j < result2.rows.length; j++) {
-   if (result.rows[i].id===result2.rows[i].zakaz_id) {
-    if (result2.rows[i].finishing) {
+     if (result.rows[i].id===result2.rows[i].zakaz_id) {
+     if (result2.rows[i].finishing) {
         result.rows[i].status=2
-       }else{
+        }else{
         result.rows[i].status=1 
-       }   
-   }else{
-    result.rows[i].status=0 
-   }       
+        }   
+     }else{
+     result.rows[i].status=0 
+     }       
     }}
+    console.log(result.rows);
     res.status(200).send(result.rows)
                 } else {
                     res.send(err)

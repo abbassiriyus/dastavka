@@ -41,18 +41,22 @@ router.post("/voditel_zakaz", (req, res) => {
             }
         });
 });
-router.post("/voditel_zakaz/mark", (req, res) => {
-    const body = req.body;
-        pool.query('INSERT INTO voditel_zakaz (mark,comment) VALUES ($1,$2) RETURNING *',
-        [body.mark,body.comment],
-         (err, result) => {
+router.put("/voditel_zakaz/mark/:id", (req, res) => {
+    const id = req.params.id
+    const body = req.body
+    pool.query(
+        'UPDATE voditel_zakaz SET mark=$1,comment=$2,time_update=$4 WHERE id = $3',
+        [body.mark,body.comment,id,new Date()],
+        (err, result) => {
             if (err) {
-                res.status(400).send(err);
+                res.status(400).send(err)
             } else {
-                res.status(201).send("Created");
+                res.status(200).send("Updated")
             }
-        });
-});
+        }
+    )
+})
+
 router.get("/voditel_zakaz/finishing", (req, res) => {
     const body = req.body;
         pool.query('INSERT INTO voditel_zakaz (finishing) VALUES ($1) RETURNING *',
