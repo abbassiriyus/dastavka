@@ -81,8 +81,8 @@ router.put("/zakaz/:id", (req, res) => {
     const body = req.body
   
     pool.query(
-        'UPDATE zakaz SET address=$1,day=$2,time=$3,category=$4,positsiya=$5,m3=$6,description=$7,payment=$8,tarif=$9,mashina=$10,work_time_shving=$11,price=$12,status=$13, shving=$14, marka=$15, bonus=$16 WHERE id = $17',
-        [body.address,body.day,body.time,body.category,body.positsiya,body.m3,body.description,body.payment,body.tarif,body.mashina,body.work_time_shving,body.price,body.status,body.shving,body.marka,body.bonus,id],
+        'UPDATE zakaz SET address=$1,day=$2,time=$3,category=$4,positsiya=$5,m3=$6,description=$7,payment=$8,tarif=$9,mashina=$10,work_time_shving=$11,price=$12,status=$13, shving=$14, marka=$15, bonus=$16,user_id=$18 WHERE id = $17',
+        [body.address,body.day,body.time,body.category,body.positsiya,body.m3,body.description,body.payment,body.tarif,body.mashina,body.work_time_shving,body.price,body.status,body.shving,body.marka,body.bonus,id,body.user_id],
         (err, result) => {
             if (err) {
                 res.status(400).send(err)
