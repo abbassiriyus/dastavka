@@ -215,3 +215,15 @@ create table zakaz(
   "time_create" timestamp default current_timestamp not null,
   "time_update" timestamp default current_timestamp not null
 )
+create table voditel_zakaz{
+    "id" serial primary key, 
+    'zakaz_id' integer not null
+    "car_id" integer not null,
+    "operator_id" integer,
+    "mark" integer default 4 not null,
+    "comment" text,
+    UNIQUE ("zakaz_id")
+    "finishing" boolean default false not null,
+    "time_create" timestamp default current_timestamp not null,
+    "time_update" timestamp default current_timestamp not null 
+}

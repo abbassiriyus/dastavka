@@ -12,6 +12,7 @@ const position=require('./routes/position.js')
 const compony=require('./routes/compony.js')
 const news=require('./routes/news.js')
 const homiy_image=require('./routes/homiy_image.js')
+const voditel_zakaz=require('./routes/voditel_zakaz.js')
 
 
 
@@ -45,6 +46,8 @@ app.use('/api',position)
 
 
 app.use('/api',news)
+app.use('/api',voditel_zakaz)
+
 app.use('/api',compony)
 
 app.use('/api',preferences)
