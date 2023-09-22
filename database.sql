@@ -199,6 +199,7 @@ create table zakaz(
  "address" VARCHAR(100) not null,
  "day" date not null,
  "time" time not null,
+ "user_id" integer not null,
  "category" VARCHAR(50) not null,
  "positsiya" VARCHAR(50) not null,
  "m3" integer not null,

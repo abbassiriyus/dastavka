@@ -55,8 +55,8 @@ router.get('/zakaz/:id', (req, res) => {
 router.post("/zakaz", (req, res) => {
     const body = req.body;
    
-        pool.query('INSERT INTO zakaz (address,day,category,positsiya,time,m3,description,payment,tarif,mashina,work_time_shving,price,status,shving,marka,bonus) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16) RETURNING *',
-        [body.address,body.day,body.category,body.positsiya,body.time,body.m3,body.description,body.payment,body.tarif,body.mashina,body.work_time_shving,body.price,body.status,body.shving,body.marka,body.bonus],
+        pool.query('INSERT INTO zakaz (address,day,category,positsiya,time,m3,description,payment,tarif,mashina,work_time_shving,price,status,shving,marka,bonus,user_id) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17) RETURNING *',
+        [body.address,body.day,body.category,body.positsiya,body.time,body.m3,body.description,body.payment,body.tarif,body.mashina,body.work_time_shving,body.price,body.status,body.shving,body.marka,body.bonus,body.user_id],
          (err, result) => {
             if (err) {
                 res.status(400).send(err);
