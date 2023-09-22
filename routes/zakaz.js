@@ -11,8 +11,12 @@ router.get("/zakaz", (req, res) => {
             pool.query("SELECT * FROM voditel_zakaz", (err, result2) => {
                 if (!err) {
       for (let i = 0; i < result.rows.length; i++) {
+        if(result2.rows.length==0){
+            result.rows[i].status=0 
+        }
     for (let j = 0; j < result2.rows.length; j++) {
-     if (result.rows[i].id===result2.rows[i].zakaz_id) {
+       if (result.rows[i].id===result2.rows[i].zakaz_id) {
+
      if (result2.rows[i].finishing) {
         result.rows[i].status=2
         }else{
