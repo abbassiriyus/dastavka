@@ -30,7 +30,7 @@ router.get('/homiy_image/:id', (req, res) => {
 router.post("/homiy_image", (req, res) => {
     const body = req.body;
     var imgName="";
-    if(req.files){
+    if(req.files && req.files.image){
     var imgFile = req.files.image
     imgName = Date.now()+imgFile.name.slice(imgFile.name.lastIndexOf('.'))
      }else{
