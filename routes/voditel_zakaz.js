@@ -57,19 +57,21 @@ router.put("/voditel_zakaz/mark/:id", (req, res) => {
     )
 })
 
-router.get("/voditel_zakaz/finishing", (req, res) => {
-    const body = req.body;
-        pool.query('INSERT INTO voditel_zakaz (finishing) VALUES ($1) RETURNING *',
-        [true],
-         (err, result) => {
+router.get("/voditel_zakaz/finishing/:id", (req, res) => {
+    const id = req.params.id
+    const body = req.body
+    pool.query(
+        'UPDATE voditel_zakaz SET finishing=$1,time_update=$3 WHERE id = $2',
+        [body.finishing,id,new Date()],
+        (err, result) => {
             if (err) {
-                res.status(400).send(err);
+                res.status(400).send(err)
             } else {
-                res.status(201).send("Created");
+                res.status(200).send("Updated")
             }
-        });
-});
-
+        }
+    )
+})
 router.delete("/voditel_zakaz/:id", (req, res) => {
     const id = req.params.id
     pool.query('DELETE FROM voditel_zakaz WHERE id = $1', [id], (err, result) => {
