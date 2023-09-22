@@ -50,7 +50,7 @@ router.post("/homeiy", (req, res) => {
       imgName=req.body.image
      }
     pool.query('INSERT INTO homeiy (image,link,title,gis_mark,betomtaxi_mark,email,phone) VALUES ($1,$2,$3,$4,$5,$6,$7,$8) RETURNING *',
-        [req.protocol+"://"+req.hostname+"/"+imgName,body.link,body.title,body.gis_mark,body.betomtaxi_mark,body.description,body.email,body.phone],
+        [imgName.length<16?req.protocol+"://"+req.hostname+"/"+imgName:imgName,body.link,body.title,body.gis_mark,body.betomtaxi_mark,body.description,body.email,body.phone],
          (err, result) => {
             if (err) {
                 res.status(400).send(err);

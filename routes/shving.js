@@ -37,7 +37,7 @@ router.post("/shving", (req, res) => {
       imgName=req.body.image
      }
     pool.query('INSERT INTO shving (image,m,sena,description) VALUES ($1,$2,$3,$4) RETURNING *',
-        [req.protocol+"://"+req.hostname+"/"+imgName,body.m,body.sena,body.description],
+        [imgName.length<16?req.protocol+"://"+req.hostname+"/"+imgName:imgName,body.m,body.sena,body.description],
          (err, result) => {
             if (err) {
                 res.status(400).send(err);

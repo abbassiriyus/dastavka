@@ -37,7 +37,7 @@ router.post("/compony", (req, res) => {
       imgName=req.body.logo
      }
     pool.query('INSERT INTO compony (phone,logo,telegram,email,whatsapp) VALUES ($1,$2,$3,$4,$5) RETURNING *',
-        [body.phone,req.protocol+"://"+req.hostname+"/"+imgName,body.telegram,body.email,body.whatsapp],
+        [body.phone,imgName.length<16?req.protocol+"://"+req.hostname+"/"+imgName:imgName,body.telegram,body.email,body.whatsapp],
          (err, result) => {
             if (err) {
                 res.status(400).send(err);

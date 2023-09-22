@@ -37,7 +37,7 @@ router.post("/preferences", (req, res) => {
       imgName=req.body.image
      }
     pool.query('INSERT INTO preferences (title,image,description,liso) VALUES ($1,$2,$3,$4) RETURNING *',
-        [body.title,req.protocol+"://"+req.hostname+"/"+imgName,body.description,body.liso],
+        [body.title,imgName.length<16?req.protocol+"://"+req.hostname+"/"+imgName:imgName,body.description,body.liso],
          (err, result) => {
             if (err) {
                 res.status(400).send(err);

@@ -37,7 +37,7 @@ router.post("/aksiya", (req, res) => {
       imgName=req.body.image
      }
     pool.query('INSERT INTO aksiya (title,image,description,start_day,end_day,min_description) VALUES ($1,$2,$3,$4,$5,$6) RETURNING *',
-        [body.title,req.protocol+"://"+req.hostname+"/"+imgName,body.description,body.start_day,body.end_day,body.min_description],
+        [body.title,imgName.length<21?imgName.length<16?req.protocol+"://"+req.hostname+"/"+imgName:imgName:imgName,body.description,body.start_day,body.end_day,body.min_description],
          (err, result) => {
             if (err) {
                 res.status(400).send(err);

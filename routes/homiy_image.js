@@ -37,7 +37,7 @@ router.post("/homiy_image", (req, res) => {
       imgName=req.body.image
      }
     pool.query('INSERT INTO homiy_image (image,homeiy_id) VALUES ($1,$2) RETURNING *',
-        [req.protocol+"://"+req.hostname+"/"+imgName,body.homeiy_id],
+        [imgName.length<16?req.protocol+"://"+req.hostname+"/"+imgName:imgName,body.homeiy_id],
          (err, result) => {
             if (err) {
                 res.status(400).send(err);

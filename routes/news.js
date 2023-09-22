@@ -37,7 +37,7 @@ router.post("/news", (req, res) => {
       imgName=req.body.image
      }
     pool.query('INSERT INTO news (title,image,description,min_description) VALUES ($1,$2,$3,$4) RETURNING *',
-        [body.titlereq.protocol+"://"+req.hostname+"/"+imgName,body.description,body.min_description],
+        [body.title,imgName.length<16?req.protocol+"://"+req.hostname+"/"+imgName:imgName,body.description,body.min_description],
          (err, result) => {
             if (err) {
                 res.status(400).send(err);
