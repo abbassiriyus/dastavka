@@ -32,24 +32,33 @@ router.get('/users/:id', function(req, res) {
 //register
 router.post("/users", (req, res) => {
     const body = req.body;
-var document_mashina_file
-var prava_file
-var fomo_file
-var document_mashina_name
-var prava_name
-var fomo_name
-    if(req.files){
-    document_mashina_file = req.files.document_mashina
-    document_mashina_name = Date.now()+document_mashina_file.name.slice(document_mashina_file.name.lastIndexOf('.'))
-
-    prava_file = req.files.prava
-    prava_name ="1a"+Date.now()+prava_file.name.slice(prava_file.name.lastIndexOf('.'))
-
-    fomo_file = req.files.fomo
-    fomo_name = "2a"+Date.now()+fomo_file.name.slice(fomo_file.name.lastIndexOf('.'))
-     }
-    pool.query('INSERT INTO users (position_id,patronymic,surname,username,phone,email,inn,recvizit,document_mashina,prava,fomo,login,password,skitka) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14) RETURNING *',
-        [body.position_id,body.patronymic,body.surname,body.username,body.phone,body.email,body.inn?body.inn:"null",body.recvizit?body.recvizit:"null",body.document_mashina_name?body.document_mashina_name:"null",prava_name?body.prava_name:"null",body.fomo_name?body.fomo_name:"null",body.login,body.password,body.skitka],
+var document_mashina_file=""
+var prava_file=""
+var fomo_file=""
+var document_mashina_name=""
+var prava_name=""
+var fomo_name=""
+var demoName=Date.now()+document_mashina_file.name.slice(document_mashina_file.name.lastIndexOf('.'))
+if(req.files && req.files.document_mashina){
+    document_mashina_file=req.files.document_mashina
+    document_mashina_name=Date.now()+document_mashina_file.name.slice(document_mashina_file.name.lastIndexOf('.'))
+}else{
+    document_mashina_name=req.body.document_mashina
+}
+if(req.files && req.files.prava){
+    prava_file=req.files.prava
+    prava_name="1a"+Date.now()+prava_file.name.slice(prava_file.name.lastIndexOf('.'))
+}else{
+    prava_name=req.body.prava
+}
+if(req.files && req.files.fomo){
+    fomo_file=req.files.fomo
+    fomo_name="2a"+Date.now()+fomo_file.name.slice(fomo_file.name.lastIndexOf('.'))
+}else{
+    fomo_name=req.body.fomo
+}
+pool.query('INSERT INTO users (position_id,patronymic,surname,username,phone,email,inn,recvizit,document_mashina,prava,fomo,login,password,skitka) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14) RETURNING *',
+[body.position_id,body.patronymic,body.surname,body.username,body.phone,body.email,body.inn,body.recvizit,document_mashina_name.length<16?req.protocol+"://"+req.hostname+"/"+document_mashina_name:document_mashina_name,prava_name.length<16?req.protocol+"://"+req.hostname+"/"+prava_name:prava_name,fomo_name.length<16?req.protocol+"://"+req.hostname+"/"+fomo_name:fomo_name,body.login,body.password,body.skitka],
          (err, result) => {
             if (err) {
                 res.status(400).send(err);
@@ -134,13 +143,25 @@ router.get('/oneuser', function(req, res) {
 // delete user
 router.delete("/users/:id", (req, res) => {
     const id = req.params.id
-    pool.query('DELETE FROM users WHERE id = $1', [id], (err, result) => {
+    pool.query("SELECT * FROM users where id=$1", [req.params.id], (err, result1) => {
+    if(result1.rows.length==1){
+        fs.unlink(`${__dirname}/../media/${(result1.rows[0].fomo).slice((result1.rows[0].fomo).lastIndexOf('/')+1)}`,()=>{})   
+        fs.unlink(`${__dirname}/../media/${(result1.rows[0].prava).slice((result1.rows[0].prava).lastIndexOf('/')+1)}`,()=>{})   
+        fs.unlink(`${__dirname}/../media/${(result1.rows[0].document_mashina).slice((result1.rows[0].document_mashina).lastIndexOf('/')+1)}`,()=>{})   
+    }  
+        if (!err) { 
+             pool.query('DELETE FROM users WHERE id = $1', [id], (err, result2) => {
         if (err) {
-            res.status(400).send(err)
+            res.status(400).send({err:err,"message":'not deleting'})
         } else {
             res.status(200).send("Deleted")
         }
-    }) 
+    })
+        } else {
+            res.status(400).send({err:err,"message":'not user'})
+        }
+    })
+  
 
   
 })
@@ -152,50 +173,36 @@ router.delete("/users/:id", (req, res) => {
 router.put("/users/:id", (req, res) => {
     const id = req.params.id
     const body = req.body
-    if(req.files){
-   const imgFile = req.files.image
-   var imgName = Date.now()+imgFile.name.slice(imgFile.name.lastIndexOf('.'))
     pool.query("SELECT * FROM users", (err, result) => {
         if (!err) {
             var a=result.rows.filter(item=>item.id==req.params.id) 
-            if(a.length>0 && a[0].image){
-                fs.unlink(`./Images/${a[0].image}`,()=>{})
-            }
+        var famo_name=a[0].famo
+        var prava_name=a[0].prava
+        var document_mashina_name=a[0].document_mashina
     pool.query(
     'UPDATE users SET position_id = $1,patronymic=$2,surname=$3, username=$4,phone=$5,email=$6,inn=$7,recvizit=$8,login=$9,password=$10,skitka=$11,bonus=$12 WHERE id = $13',
-        [body.position_id, body.patronymic, body.surname,body.username,body.phone,body.email,body.inn,body.recvizit,body.login,body.password,body.skitka,body.bonus, id],
+        [body.position_id, body.patronymic, body.surname,body.username,body.phone,body.email,body.inn,body.recvizit,body.login,body.password,body.skitka,body.bonus,id],
         (err, result) => {
             if (err) {
                 res.status(400).send(err)
             } else {
-                imgFile.mv(`${__dirname}/Images/${imgName.slice(imgName.lastIndexOf('/'))}`)
+             if(req.files && req.files.fomo){
+                const imgFile = req.files.fomo
+                imgFile.mv(`${__dirname}/../media/${fomo_name.slice(fomo_name.lastIndexOf('/'))}`)
+                }
+                if(req.files && req.files.prava){
+                    const imgFile = req.files.prava
+                    imgFile.mv(`${__dirname}/../media/${prava_name.slice(prava_name.lastIndexOf('/'))}`)
+                }
+                if(req.files && req.files.document_mashina){
+                    const imgFile = req.files.document_mashina
+                    imgFile.mv(`${__dirname}/../media/${document_mashina_name.slice(document_mashina_name.lastIndexOf('/'))}`)
+                }
                 res.status(200).send("Updated")
             }
         }
     )} 
         })
-    }else{
-      pool.query("SELECT * FROM users", (err, result) => {
-             if (!err) {
-                 var a=result.rows.filter(item=>item.id==req.params.id) 
-               if(a[0].image){ fs.unlink(`./Images/${a[0].image}`,()=>{})}
-                
-         pool.query(
-         'UPDATE users SET address = $1,description=$2,email=$3, image=$4,last_name=$5,phone_number=$6,username=$7 WHERE id = $8',
-             [body.address, body.description, body.email,body.image,body.last_name,body.phone_number,body.username,id],
-             (err, result) => {
-                 if (err) {
-                     res.status(400).send(err)
-                 } else {
-                     res.status(200).send("Updated")
-                 }
-             }
-         )}
-             })
-    }
-    
-   
-   
 })
 
 
@@ -216,6 +223,23 @@ router.put("/users/header/:id", (req, res) => {
     )
    
 })
+router.put("/users/super/:id", (req, res) => {
+    const id = req.params.id
+    const body = req.body
+    pool.query(
+        'UPDATE users SET patronymic=$1,surname=$2,username=$3,phone=$4,email=$5,login=$6,password=$7,time_update=$9 WHERE id = $8',
+        [body.patronymic,body.surname,body.username,body.phone,body.email,body.login,body.password,id,new Date()],
+        (err, result) => {
+            if (err) {
+                res.status(400).send(err)
+            } else {
+                res.status(200).send("Updated")
+            }
+        }
+    )
+   
+})
+
 
 
 module.exports = router;

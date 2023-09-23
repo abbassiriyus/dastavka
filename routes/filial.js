@@ -30,7 +30,7 @@ router.get('/filial/:id', (req, res) => {
 router.post("/filial", (req, res) => {
     const body = req.body;
     var imgName="";
-    console.log(body);
+
     if(req.files){
     var imgFile = req.files.image
     imgName = Date.now()+imgFile.name.slice(imgFile.name.lastIndexOf('.'))

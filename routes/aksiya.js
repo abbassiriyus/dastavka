@@ -30,7 +30,7 @@ router.get('/aksiya/:id', (req, res) => {
 router.post("/aksiya", (req, res) => {
     const body = req.body;
     var imgName="";
-    if(req.files){
+    if(req.files && req.files.image){
     var imgFile = req.files.image
     imgName=Date.now()+imgFile.name.slice(imgFile.name.lastIndexOf('.'))
      }else{
@@ -77,6 +77,7 @@ router.delete("/aksiya/:id", (req, res) => {
 router.put("/aksiya/:id", (req, res) => {
     const id = req.params.id
     const body = req.body
+    var  imgName 
     pool.query("SELECT * FROM aksiya where id=$1", [req.params.id], (err, result1) => {
         if (!err) {
            
