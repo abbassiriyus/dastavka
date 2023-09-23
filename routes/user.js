@@ -75,8 +75,8 @@ pool.query('INSERT INTO users (position_id,patronymic,surname,username,phone,ema
                 }
                     }
                     token = jwt.sign({"password":req.body.password,"login":req.body.login}, 'secret');
-                    position=req.body.position   
-                res.status(201).send({access:token,position});
+                    position=req.body.position_id   
+                res.status(201).send({access:token,"position":position});
             }
         });
   
