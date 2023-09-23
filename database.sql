@@ -195,7 +195,7 @@ create table sena(
 
 
 create table zakaz(
-    "id" serial primary key,
+ "id" serial primary key,
  "address" VARCHAR(100) not null,
  "day" date not null,
  "time" time not null,
