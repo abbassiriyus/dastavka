@@ -57,10 +57,10 @@ router.put("/voditel_zakaz/mark/:id", (req, res) => {
     )
 })
 
-router.get("/voditel_zakaz/finishing", (req, res) => {
+router.get("/voditel_zakaz/finishing/:id", (req, res) => {
     const body = req.body;
-        pool.query('INSERT INTO voditel_zakaz (finishing) VALUES ($1) RETURNING *',
-        [true],
+        pool.query('UPDATE voditel_zakaz SET finishing=$1  WHERE id = $2',
+        [true,req.params.id],
          (err, result) => {
             if (err) {
                 res.status(400).send(err);
