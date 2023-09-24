@@ -37,7 +37,7 @@ router.post("/mashina", (req, res) => {
       imgName=req.body.image
      }
     pool.query('INSERT INTO mashina (image,m3,sena,description) VALUES ($1,$2,$3,$4) RETURNING *',
-        [imgName.length<16?req.protocol+"://"+req.hostname+"/"+imgName:imgName,body.m3,body.sena,body.description],
+        [imgName.length<19?req.protocol+"://"+req.hostname+"/"+imgName:imgName,body.m3,body.sena,body.description],
          (err, result) => {
             if (err) {
                 res.status(400).send(err);

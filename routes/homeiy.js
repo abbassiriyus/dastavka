@@ -49,8 +49,8 @@ router.post("/homeiy", (req, res) => {
      }else{
       imgName=req.body.image
      }
-    pool.query('INSERT INTO homeiy (image,link,title,gis_mark,betomtaxi_mark,email,phone) VALUES ($1,$2,$3,$4,$5,$6,$7,$8) RETURNING *',
-        [imgName.length<16?req.protocol+"://"+req.hostname+"/"+imgName:imgName,body.link,body.title,body.gis_mark,body.betomtaxi_mark,body.description,body.email,body.phone],
+    pool.query('INSERT INTO homeiy (image,link,title,gis_mark,betomtaxi_mark,description,email,phone) VALUES ($1,$2,$3,$4,$5,$6,$7,$8) RETURNING *',
+        [imgName.length<19?req.protocol+"://"+req.hostname+"/"+imgName:imgName,body.link,body.title,body.gis_mark,body.betomtaxi_mark,body.description,body.email,body.phone],
          (err, result) => {
             if (err) {
                 res.status(400).send(err);
@@ -66,8 +66,7 @@ router.post("/homeiy", (req, res) => {
 
 router.delete("/homeiy/:id", (req, res) => {
     const id = req.params.id
-    pool.query("SELECT * FROM homeiy where id=$1", [req.params.id], (err, result1) => {
-     
+    pool.query("SELECT * FROM homeiy where id=$1",[req.params.id],(err,result1)=>{
      if (!err && result1.rows.length>0) {
             if(result1.rows[0] && result1.rows[0].image){
                 fs.unlink(`${__dirname}/../media/${(result1.rows[0].image).slice(result1.rows[0].image.lastIndexOf('/')+1)}`,()=>{})   

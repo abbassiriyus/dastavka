@@ -38,7 +38,7 @@ router.post("/filial", (req, res) => {
       imgName=req.body.image
      }
     pool.query('INSERT INTO filial (image,title,latitude,longitude) VALUES ($1,$2,$3,$4) RETURNING *',
-        [imgName.length<16?req.protocol+"://"+req.hostname+"/"+imgName:imgName,body.title,body.latitude,body.longitude],
+        [imgName.length<19?req.protocol+"://"+req.hostname+"/"+imgName:imgName,body.title,body.latitude,body.longitude],
          (err, result) => {
             if (err) {
                 res.status(400).send(err);

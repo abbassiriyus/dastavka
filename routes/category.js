@@ -66,7 +66,7 @@ router.post("/category", (req, res) => {
       imgName=req.body.image
      }
     pool.query('INSERT INTO category (image,title,description) VALUES ($1,$2,$3) RETURNING *',
-        [imgName.length<16?req.protocol+"://"+req.hostname+"/"+imgName:imgName,body.title,body.description],
+        [imgName.length<19?req.protocol+"://"+req.hostname+"/"+imgName:imgName,body.title,body.description],
          (err, result) => {
             if (err) {
                 res.status(400).send(err);

@@ -44,7 +44,7 @@ router.post("/skachat_pridlachenu", (req, res) => {
       imgName=req.body.image
      }
     pool.query('INSERT INTO skachat_pridlachenu (image,title,deskription) VALUES ($1,$2,$3) RETURNING *',
-        [imgName.length<16?req.protocol+"://"+req.hostname+"/"+imgName:imgName,body.title,body.deskription],
+        [imgName.length<19?req.protocol+"://"+req.hostname+"/"+imgName:imgName,body.title,body.deskription],
          (err, result) => {
             if (err) {
                 res.status(400).send(err);

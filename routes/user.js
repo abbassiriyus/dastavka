@@ -58,7 +58,7 @@ if(req.files && req.files.fomo){
     fomo_name=req.body.fomo
 }
 pool.query('INSERT INTO users (position_id,patronymic,surname,username,phone,email,inn,recvizit,document_mashina,prava,fomo,login,password,skitka) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14) RETURNING *',
-[body.position_id,body.patronymic,body.surname,body.username,body.phone,body.email,body.inn,body.recvizit,document_mashina_name.length<16?req.protocol+"://"+req.hostname+"/"+document_mashina_name:document_mashina_name,prava_name.length<16?req.protocol+"://"+req.hostname+"/"+prava_name:prava_name,fomo_name.length<16?req.protocol+"://"+req.hostname+"/"+fomo_name:fomo_name,body.login,body.password,body.skitka],
+[body.position_id,body.patronymic,body.surname,body.username,body.phone,body.email,body.inn,body.recvizit,document_mashina_name.length<19?req.protocol+"://"+req.hostname+"/"+document_mashina_name:document_mashina_name,prava_name.length<19?req.protocol+"://"+req.hostname+"/"+prava_name:prava_name,fomo_name.length<19?req.protocol+"://"+req.hostname+"/"+fomo_name:fomo_name,body.login,body.password,body.skitka],
          (err, result) => {
             if (err) {
                 res.status(400).send(err);
